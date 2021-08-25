@@ -109,4 +109,25 @@ class MathTest extends TestCase
             ['1.554', 2, '1.55'],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForGetZero
+     */
+    public function testgetZero(int $scale, string $expectation)
+    {
+        $this->assertEquals(
+            $expectation,
+            $this->math->getZero($scale)
+        );
+    }
+
+    public function dataProviderForGetZero()
+    {
+        return [
+            [0, '0'],
+            [1, '0.0'],
+            [2, '0.00'],
+            [3, '0.000'],
+        ];
+    }
 }

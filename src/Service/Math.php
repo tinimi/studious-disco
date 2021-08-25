@@ -21,6 +21,15 @@ class Math
         return $this->round(bcmul($num1, $num2, $scale + 1), $scale);
     }
 
+    public function getZero(int $scale): string
+    {
+        if (0 === $scale) {
+            return '0';
+        }
+
+        return '0.'.str_repeat('0', $scale);
+    }
+
     protected function round($number, $precision = 0)
     {
         if (strpos($number, '.') !== false) {

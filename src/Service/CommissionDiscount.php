@@ -56,7 +56,7 @@ class CommissionDiscount extends AbstractCommission
 
         $sum = $this->math->add($stored, $converted->getAmount(), $this->currency->getScale());
         if (bccomp($sum, $this->discountAmount, $this->currency->getScale()) < 0) {
-            return '0.00';
+            return $this->math->getZero($transaction->getCurrency()->getScale());
         }
 
         $overflow = bcsub($sum, $this->discountAmount, $this->currency->getScale());

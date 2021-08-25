@@ -8,7 +8,7 @@ parameters:
       scale: 2
     -
       name: JPY
-      scale: 2
+      scale: 0
   rates:
     EUR:
       USD: '1.1497'
