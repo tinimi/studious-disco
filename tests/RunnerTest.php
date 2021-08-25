@@ -9,11 +9,6 @@ use App\Runner;
 class RunnerTest extends AbstractMyTestCase
 {
     protected $fileName = '/tmp/test.csv';
-    // public function __construct(?string $name = null, array $data = [], $dataName = '')
-    // {
-    //     $this->fileName = '/tmp/test.csv';
-    //     parent::__construct($name, $data, $dataName);
-    // }
 
     public function testRunner()
     {
