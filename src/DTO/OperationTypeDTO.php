@@ -27,16 +27,6 @@ class OperationTypeDTO
         }
     }
 
-    public function isDeposit(): bool
-    {
-        return $this->deposit;
-    }
-
-    public function isWithdraw(): bool
-    {
-        return !$this->deposit;
-    }
-
     public function getName(): string
     {
         return $this->deposit ? self::TYPE_DEPOSIT : self::TYPE_WITHDRAW;

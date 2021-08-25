@@ -27,16 +27,6 @@ class UserTypeDTO
         }
     }
 
-    public function isPrivate(): bool
-    {
-        return !$this->business;
-    }
-
-    public function isBussiness(): bool
-    {
-        return $this->business;
-    }
-
     public function getName(): string
     {
         return $this->business ? self::TYPE_BUSSINESS : self::TYPE_PRIVATE;

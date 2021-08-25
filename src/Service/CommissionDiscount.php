@@ -20,9 +20,10 @@ class CommissionDiscount extends AbstractCommission
     protected TransactionFactoryInterface $transactionFactory;
     protected ExchangeRateInterface $rate;
 
-    public function __construct(string $comission, string $discountAmount, string $discountCurrency, int $discountCount,
+    public function __construct(Math $math, string $comission, string $discountAmount, string $discountCurrency, int $discountCount,
         TransactionStoreInterface $store, CurrencyFactoryInterface $currencyFactory, TransactionFactoryInterface $transactionFactory, ExchangeRateInterface $rate)
     {
+        parent::__construct($math);
         $this->comission = $comission;
         $this->discountAmount = $discountAmount;
         $this->discountCount = $discountCount;
@@ -46,14 +47,14 @@ class CommissionDiscount extends AbstractCommission
 
         $stored = '0';
         foreach ($transactions as $storedTransaction) {
-            $stored = bcadd($stored, $storedTransaction->getAmount(), $this->currency->getScale());
+            $stored = $this->math->add($stored, $storedTransaction->getAmount(), $this->currency->getScale());
         }
 
         if (bccomp($stored, $this->discountAmount, $this->currency->getScale()) >= 0) {
             return $this->calcCommission($transaction->getAmount(), $this->comission, $transaction->getCurrency()->getScale());
         }
 
-        $sum = bcadd($stored, $converted->getAmount(), $this->currency->getScale());
+        $sum = $this->math->add($stored, $converted->getAmount(), $this->currency->getScale());
         if (bccomp($sum, $this->discountAmount, $this->currency->getScale()) < 0) {
             return '0.00';
         }

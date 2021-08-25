@@ -8,12 +8,19 @@ use App\DTO\TransactionDTO;
 
 abstract class AbstractCommission
 {
+    protected $math;
+
     abstract public function calc(TransactionDTO $transaction): string;
+
+    public function __construct(Math $math)
+    {
+        $this->math = $math;
+    }
 
     protected function calcCommission(string $amount, string $comission, int $scale): string
     {
-        $percent = bcdiv($amount, '100', $scale + 2);
+        $percent = $this->math->div($amount, '100', $scale + 2);
 
-        return bcmul($percent, $this->comission, $scale);
+        return $this->math->mul($percent, $this->comission, $scale);
     }
 }

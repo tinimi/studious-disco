@@ -10,8 +10,9 @@ class CommissionConstant extends AbstractCommission
 {
     protected string $comission;
 
-    public function __construct($comission)
+    public function __construct(Math $math, string $comission)
     {
+        parent::__construct($math);
         $this->comission = $comission;
     }
 

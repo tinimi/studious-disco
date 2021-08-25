@@ -1,0 +1,4 @@
+services:
+    TransactionFactory:
+        alias: App\Factory\TransactionFactory
+        public: true

@@ -6,6 +6,7 @@ include __DIR__ . '/vendor/autoload.php';
 
 $finder = PhpCsFixer\Finder::create()
     ->in(['src'])
+    ->in(['tests'])
 ;
 
 $config = new PhpCsFixer\Config();

@@ -1,6 +1,9 @@
 FROM php:8.0.9-cli
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN docker-php-ext-install bcmath
+RUN pecl install xdebug \
+    && echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && docker-php-ext-enable xdebug
 RUN apt-get update && apt-get install -y unzip
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 RUN mkdir /.composer && chmod 777 /.composer
