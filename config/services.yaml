@@ -1,0 +1,55 @@
+imports:                                                                                                                                                                                                           
+    - { resource: currencies.yaml }
+
+# config/services.yaml
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
+    
+    App\Runner:
+        public: true
+        tags: ["app.runner"]
+
+    App\Factory\CurrencyFactory:
+        arguments: ['%currencies%']
+   
+    App\Service\ExchangeRateStub:
+        arguments: 
+            $rates: '%rates%'
+
+    commission.deposit:
+        class: 'App\Service\CommissionConstant'
+        arguments:
+            $comission: '0.03'
+    
+    commission.withdraw.business:
+        class: 'App\Service\CommissionConstant'
+        arguments:
+            $comission: '0.5'
+    
+    commission.withdraw.private:
+        class: 'App\Service\CommissionDiscount'
+        arguments:
+            $comission: '0.3'
+            $discountAmount: '1000'
+            $discountCurrency: 'EUR'
+            $discountCount: 3
+
+    App\Service\ComissionCalc:
+        arguments:
+            $commissions:
+                deposit:
+                    business: '@commission.deposit'
+                    private: '@commission.deposit'
+                withdraw:
+                    business: '@commission.withdraw.business'
+                    private: '@commission.withdraw.private'
+    # ...

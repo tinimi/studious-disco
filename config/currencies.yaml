@@ -1,0 +1,15 @@
+parameters:
+  currencies:
+    -
+      name: USD
+      scale: 2
+    -
+      name: EUR
+      scale: 2
+    -
+      name: JPY
+      scale: 2
+  rates:
+    EUR:
+      USD: '1.1497'
+      JPY: '129.53'
