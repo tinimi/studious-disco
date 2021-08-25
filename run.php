@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+if ($argc != 2) {
+    die("Usage: {$argv[0]} filename.csv\n");
+}
 include __DIR__ . '/vendor/autoload.php';
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,9 +15,16 @@ $containerBuilder = new ContainerBuilder();
 $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__));
 $loader->load('config/services.yaml');
 
+$containerBuilder->setParameter('filename', $argv[1]);
+
 $containerBuilder->compile();
 
 $serviceIds = $containerBuilder->findTaggedServiceIds('app.runner');
 foreach ($serviceIds as $serviceId => $tags) {
-    $containerBuilder->get($serviceId)->run();
+    try { 
+        $containerBuilder->get($serviceId)->run();
+    } catch (Exception $e) {
+        fwrite(STDERR, $e->getMessage(). "\n");
+        exit(1);
+    }
 }

@@ -12,11 +12,11 @@ class CSVReader implements ReaderInterface
     protected $handle;
     protected $factory;
 
-    public function __construct(TransactionFactoryInterface $factory, string $fileName = 'test.csv')
+    public function __construct(TransactionFactoryInterface $factory, string $fileName)
     {
         $this->factory = $factory;
 
-        $this->handle = fopen($fileName, 'r');
+        $this->handle = @fopen($fileName, 'r');
         if (!$this->handle) {
             throw new \Exception('File not found');
         }
