@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 abstract class AbstractMyTestCase extends TestCase
 {
     protected $container;
+    protected $fileName = 'qwe';
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
@@ -19,7 +20,7 @@ abstract class AbstractMyTestCase extends TestCase
         $loader = new YamlFileLoader($this->container, new FileLocator(dirname(__DIR__)));
         $loader->load('config/services.yaml');
         $loader->load('tests/services.yaml');
-        $this->container->setParameter('filename', 'qwe');
+        $this->container->setParameter('filename', $this->fileName);
 
         $this->container->compile();
 
