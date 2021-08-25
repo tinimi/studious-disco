@@ -1,5 +1,6 @@
 imports:                                                                                                                                                                                                           
     - { resource: currencies.yaml }
+    - { resource: env.yaml }
 
 # config/services.yaml
 services:
@@ -52,4 +53,16 @@ services:
                 withdraw:
                     business: '@commission.withdraw.business'
                     private: '@commission.withdraw.private'
-    # ...
+
+    BenMajor\ExchangeRatesAPI\ExchangeRatesAPI:
+        arguments:
+            $access_key: '%exchangeratesapi.io.key%'
+            $use_ssl: '%exchangeratesapi.io.isPaid%'
+
+    App\Service\ExchangeRateInterface:
+        #alias: App\Service\ExchangeRateStub
+        alias: App\Service\ExchangeRateApi
+
+    App\Service\ExchangeRateApi:
+        arguments:
+            $isPaid: '%exchangeratesapi.io.isPaid%'

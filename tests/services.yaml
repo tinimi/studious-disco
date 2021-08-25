@@ -2,3 +2,5 @@ services:
     TransactionFactory:
         alias: App\Factory\TransactionFactory
         public: true
+    App\Service\ExchangeRateInterface:
+        alias: App\Service\ExchangeRateStub

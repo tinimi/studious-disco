@@ -11,10 +11,12 @@ use Exception;
 class ExchangeRateStub implements ExchangeRateInterface
 {
     protected array $rates;
+    protected Math $math;
 
-    public function __construct(array $rates)
+    public function __construct(array $rates, Math $math)
     {
         $this->rates = $rates;
+        $this->math = $math;
     }
 
     public function getRatio(DateTimeImmutable $date, CurrencyDTO $from, CurrencyDTO $to): string

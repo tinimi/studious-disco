@@ -6,6 +6,7 @@ namespace App\Tests\Service;
 
 use App\DTO\CurrencyDTO;
 use App\Service\ExchangeRateStub;
+use App\Service\Math;
 use DateTimeImmutable;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,8 @@ class ExchangeRateStubTest extends TestCase
                     'USD' => '1.1497',
                     'JPY' => '129.53',
                 ],
-            ]
+            ],
+            new Math()
         );
 
         $from = new CurrencyDTO('EUR', 2);
@@ -41,7 +43,8 @@ class ExchangeRateStubTest extends TestCase
                     'USD' => '1.1497',
                     'JPY' => '129.53',
                 ],
-            ]
+            ],
+            new Math()
         );
 
         $from = new CurrencyDTO('EUR', 2);
