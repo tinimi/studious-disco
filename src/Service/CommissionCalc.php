@@ -7,7 +7,7 @@ namespace App\Service;
 use App\DTO\TransactionDTO;
 use Exception;
 
-class ComissionCalc implements ComissionCalcInterface
+class CommissionCalc implements CommissionCalcInterface
 {
     protected $commissions;
 

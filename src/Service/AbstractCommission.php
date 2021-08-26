@@ -17,10 +17,10 @@ abstract class AbstractCommission
         $this->math = $math;
     }
 
-    protected function calcCommission(string $amount, string $comission, int $scale): string
+    protected function calcCommission(string $amount, string $commission, int $scale): string
     {
         $percent = $this->math->div($amount, '100', $scale + 2);
 
-        return $this->math->mul($percent, $this->comission, $scale);
+        return $this->math->mul($percent, $commission, $scale);
     }
 }

@@ -29,22 +29,22 @@ services:
     commission.deposit:
         class: 'App\Service\CommissionConstant'
         arguments:
-            $comission: '0.03'
+            $commission: '0.03'
     
     commission.withdraw.business:
         class: 'App\Service\CommissionConstant'
         arguments:
-            $comission: '0.5'
+            $commission: '0.5'
     
     commission.withdraw.private:
         class: 'App\Service\CommissionDiscount'
         arguments:
-            $comission: '0.3'
+            $commission: '0.3'
             $discountAmount: '1000'
             $discountCurrency: 'EUR'
             $discountCount: 3
 
-    App\Service\ComissionCalc:
+    App\Service\CommissionCalc:
         arguments:
             $commissions:
                 deposit:

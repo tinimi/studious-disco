@@ -11,7 +11,7 @@ use App\Factory\TransactionFactoryInterface;
 
 class CommissionDiscount extends AbstractCommission
 {
-    protected string $comission;
+    protected string $commission;
     protected string $discountAmount;
     protected CurrencyDTO $currency;
     protected int $discountCount;
@@ -20,11 +20,11 @@ class CommissionDiscount extends AbstractCommission
     protected TransactionFactoryInterface $transactionFactory;
     protected ExchangeRateInterface $rate;
 
-    public function __construct(Math $math, string $comission, string $discountAmount, string $discountCurrency, int $discountCount,
+    public function __construct(Math $math, string $commission, string $discountAmount, string $discountCurrency, int $discountCount,
         TransactionStoreInterface $store, CurrencyFactoryInterface $currencyFactory, TransactionFactoryInterface $transactionFactory, ExchangeRateInterface $rate)
     {
         parent::__construct($math);
-        $this->comission = $comission;
+        $this->commission = $commission;
         $this->discountAmount = $discountAmount;
         $this->discountCount = $discountCount;
 
@@ -39,7 +39,7 @@ class CommissionDiscount extends AbstractCommission
         $transactions = $this->store->getTransactionsByWeek($transaction->getDate(), $transaction->getUid());
 
         if (count($transactions) > $this->discountCount) {
-            return $this->calcCommission($transaction->getAmount(), $this->comission, $transaction->getCurrency()->getScale());
+            return $this->calcCommission($transaction->getAmount(), $this->commission, $transaction->getCurrency()->getScale());
         }
 
         $converted = $this->transactionFactory->convert($transaction, $this->currency);
@@ -51,7 +51,7 @@ class CommissionDiscount extends AbstractCommission
         }
 
         if (bccomp($stored, $this->discountAmount, $this->currency->getScale()) >= 0) {
-            return $this->calcCommission($transaction->getAmount(), $this->comission, $transaction->getCurrency()->getScale());
+            return $this->calcCommission($transaction->getAmount(), $this->commission, $transaction->getCurrency()->getScale());
         }
 
         $sum = $this->math->add($stored, $converted->getAmount(), $this->currency->getScale());
@@ -66,6 +66,6 @@ class CommissionDiscount extends AbstractCommission
             $overflow = bcdiv($overflow, $ratio, $transaction->getCurrency()->getScale());
         }
 
-        return $this->calcCommission($overflow, $this->comission, $transaction->getCurrency()->getScale());
+        return $this->calcCommission($overflow, $this->commission, $transaction->getCurrency()->getScale());
     }
 }

@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\DTO\TransactionDTO;
 
-interface ComissionCalcInterface
+interface CommissionCalcInterface
 {
     public function calc(TransactionDTO $transaction): string;
 }
