@@ -38,7 +38,7 @@ class CommissionDiscount extends AbstractCommission
     {
         $transactions = $this->store->getTransactionsByWeek($transaction->getDate(), $transaction->getUid());
 
-        if (count($transactions) > $this->discountCount) {
+        if (count($transactions) >= $this->discountCount) {
             return $this->calcCommission($transaction->getAmount(), $this->commission, $transaction->getCurrency()->getScale());
         }
 

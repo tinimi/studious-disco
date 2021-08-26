@@ -4,3 +4,7 @@ services:
         public: true
     App\Service\ExchangeRateInterface:
         alias: App\Service\ExchangeRateStub
+        public: true
+    App\Factory\CurrencyFactoryInterface:
+        alias: App\Factory\CurrencyFactory
+        public: true
