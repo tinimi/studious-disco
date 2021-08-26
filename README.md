@@ -14,6 +14,7 @@ Copy and fill environment config. Specify API key for accessing exchangeratesapi
 cp config/env.yaml.tpl config/env.yaml
 ```
 You could configure currencies in `config/currencies.yaml`
+If your data is already sorted by date you could set `sort` to `false`. This will improve speed and memory usage.
 
 You could use stub instead of real api. This will save api usage. Change following lines in `config/services.yaml`:
 ```diff
@@ -29,10 +30,10 @@ You could use stub instead of real api. This will save api usage. Change followi
 Run `./php.sh bin/phpunit --coverage-text`.
 ```
 Code Coverage Report:       
-  2021-08-26 10:57:37       
+  2021-08-26 11:57:48       
                             
  Summary:                   
-  Classes: 100.00% (19/19)  
-  Methods: 100.00% (46/46)  
-  Lines:   100.00% (171/171)
+  Classes: 100.00% (20/20)  
+  Methods: 100.00% (53/53)  
+  Lines:   100.00% (199/199)
 ```

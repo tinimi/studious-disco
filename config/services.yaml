@@ -22,6 +22,8 @@ services:
     App\Runner:
         public: true
         tags: ["app.runner"]
+        arguments:
+            $sort: '%sort%'
 
     App\Factory\CurrencyFactory:
         arguments: ['%currencies%']
