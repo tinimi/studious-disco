@@ -14,10 +14,25 @@ Copy and fill environment config. Specify API key for accessing exchangeratesapi
 cp config/env.yaml.tpl config/env.yaml
 ```
 You could configure currencies in `config/currencies.yaml`
-If you want to use stub instead of real api changes this lines in `config/services.yaml`:
 
+You could use stub instead of real api. This will save api usage. Change following lines in `config/services.yaml`:
+```diff
+     App\Service\ExchangeRateInterface:
+-        alias: App\Service\ExchangeRateApi
++        alias: App\Service\ExchangeRateStub
+```
 ## Execute
 ```
 ./php.sh php run.php test.csv
 ```
-## Tes
+## Tests
+Run `./php.sh bin/phpunit --coverage-text`.
+```
+Code Coverage Report:       
+  2021-08-26 10:57:37       
+                            
+ Summary:                   
+  Classes: 100.00% (19/19)  
+  Methods: 100.00% (46/46)  
+  Lines:   100.00% (171/171)
+```
