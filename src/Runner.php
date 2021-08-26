@@ -35,7 +35,7 @@ class Runner
 
     public function runWithoutSort(): void
     {
-        while ($t = $this->reader->getTransaction()) {
+        foreach ($this->reader->getTransaction() as $t) {
             $this->writer->write($this->commissionCalc->calc($t));
         }
     }
@@ -44,7 +44,7 @@ class Runner
     {
         $data = [];
         $i = 0;
-        while ($t = $this->reader->getTransaction()) {
+        foreach ($this->reader->getTransaction() as $t) {
             $data[] = new OrderDTO(++$i, $t);
         }
         usort($data, function ($a, $b) {

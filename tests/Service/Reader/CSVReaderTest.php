@@ -16,7 +16,9 @@ class CSVReaderTest extends AbstractMyTestCase
         $this->expectException(Exception::class);
 
         $transactionFactory = $this->container->get('TransactionFactory');
-        new CSVReader($transactionFactory, 'qwe');
+        $reader = new CSVReader($transactionFactory, 'qwe');
+        foreach ($reader->getTransaction() as $t) {
+        }
     }
 
     public function testOk()
@@ -25,10 +27,8 @@ class CSVReaderTest extends AbstractMyTestCase
 
         $transactionFactory = $this->container->get('TransactionFactory');
         $reader = new CSVReader($transactionFactory, '/tmp/qwe');
-        $transaction = $reader->getTransaction();
-
-        $this->assertInstanceOf(TransactionDTO::class, $transaction);
-        $transaction = $reader->getTransaction();
-        $this->assertNull($transaction);
+        foreach ($reader->getTransaction() as $transaction) {
+            $this->assertInstanceOf(TransactionDTO::class, $transaction);
+        }
     }
 }

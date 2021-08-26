@@ -30,10 +30,10 @@ You could use stub instead of real api. This will save api usage. Change followi
 Run `./php.sh bin/phpunit --coverage-text`.
 ```
 Code Coverage Report:       
-  2021-08-26 11:57:48       
+  2021-08-26 12:08:46       
                             
  Summary:                   
   Classes: 100.00% (20/20)  
   Methods: 100.00% (53/53)  
-  Lines:   100.00% (199/199)
+  Lines:   100.00% (201/201)
 ```
