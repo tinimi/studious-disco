@@ -1,7 +1,11 @@
 imports:                                                                                                                                                                                                           
     - { resource: currencies.yaml }
     - { resource: env.yaml }
-
+parameters:
+  rates:
+    EUR:
+      USD: '1.1497'
+      JPY: '129.53'
 # config/services.yaml
 services:
     # default configuration for services in *this* file
@@ -59,13 +63,13 @@ services:
             $access_key: '%exchangeratesapi.io.key%'
             $use_ssl: '%exchangeratesapi.io.isPaid%'
 
-    App\Service\ExchangeRateInterface:
-        #alias: App\Service\ExchangeRateStub
-        alias: App\Service\ExchangeRateApi
-
     App\Service\ExchangeRateApi:
         arguments:
             $isPaid: '%exchangeratesapi.io.isPaid%'
     App\Service\Reader\CSVReader:
         arguments:
             $fileName: '%filename%'
+
+    App\Service\ExchangeRateInterface:
+        #alias: App\Service\ExchangeRateStub
+        alias: App\Service\ExchangeRateApi

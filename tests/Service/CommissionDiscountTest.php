@@ -24,7 +24,6 @@ class CommissionDiscountTest extends AbstractMyTestCase
             'EUR',
             2,
             new TransactionStore(),
-            //new CurrencyFactory(),
             $this->container->get(CurrencyFactoryInterface::class),
             $transactionFactory,
             $this->container->get(ExchangeRateInterface::class)

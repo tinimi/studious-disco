@@ -9,7 +9,3 @@ parameters:
     -
       name: JPY
       scale: 0
-  rates:
-    EUR:
-      USD: '1.1497'
-      JPY: '129.53'
