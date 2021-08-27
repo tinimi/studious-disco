@@ -8,5 +8,5 @@ use App\DTO\CurrencyDTO;
 
 interface CurrencyFactoryInterface
 {
-    public function getByName(string $name): ?CurrencyDTO;
+    public function getByName(string $name): CurrencyDTO;
 }

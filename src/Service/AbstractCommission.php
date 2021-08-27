@@ -8,7 +8,7 @@ use App\DTO\TransactionDTO;
 
 abstract class AbstractCommission
 {
-    protected $math;
+    protected Math $math;
 
     abstract public function calc(TransactionDTO $transaction): string;
 

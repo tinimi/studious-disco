@@ -4,7 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Reader;
 
+use App\DTO\TransactionDTO;
+use Generator;
+
 interface ReaderInterface
 {
-    public function getTransaction();
+    /**
+     * @return Generator<TransactionDTO>
+     */
+    public function getTransaction(): Generator;
+
 }

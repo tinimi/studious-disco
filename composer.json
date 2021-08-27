@@ -20,8 +20,9 @@
         "symfony/yaml": "^5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "*",
-        "friendsofphp/php-cs-fixer": "*"
+        "friendsofphp/php-cs-fixer": "*",
+        "phpstan/phpstan": "^0.12.96",
+        "phpunit/phpunit": "*"
     },
     "config": {
         "sort-packages": true,

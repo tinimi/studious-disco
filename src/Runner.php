@@ -14,7 +14,7 @@ class Runner
     protected ReaderInterface $reader;
     protected WriterInterface $writer;
     protected CommissionCalcInterface $commissionCalc;
-    protected $sort;
+    protected bool $sort;
 
     public function __construct(ReaderInterface $reader, WriterInterface $writer, CommissionCalcInterface $commissionCalc, bool $sort)
     {

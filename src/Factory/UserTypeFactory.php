@@ -8,7 +8,10 @@ use App\DTO\UserTypeDTO;
 
 class UserTypeFactory implements UserTypeFactoryInterface
 {
-    protected $userTypes;
+    /**
+     * @var array<UserTypeDTO>
+     */
+    protected array $userTypes;
 
     public function getByName(string $name): UserTypeDTO
     {

@@ -10,9 +10,16 @@ use Exception;
 
 class ExchangeRateStub implements ExchangeRateInterface
 {
+    /**
+     * @var array<array>
+     */
     protected array $rates;
     protected Math $math;
 
+    /**
+     * @param array<array> $rates
+     * @param Math $math
+     */
     public function __construct(array $rates, Math $math)
     {
         $this->rates = $rates;

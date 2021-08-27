@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Service\Reader;
 
 use App\Factory\TransactionFactoryInterface;
+use App\DTO\TransactionDTO;
+use Generator;
 
 class CSVReader implements ReaderInterface
 {
-    protected $handle;
-    protected $factory;
-    protected $fileName;
+    protected TransactionFactoryInterface $factory;
+    protected string $fileName;
 
     public function __construct(TransactionFactoryInterface $factory, string $fileName)
     {
@@ -18,17 +19,20 @@ class CSVReader implements ReaderInterface
         $this->fileName = $fileName;
     }
 
-    public function getTransaction()
+    /**
+     * @return Generator<TransactionDTO>
+     */
+    public function getTransaction(): Generator
     {
-        $this->handle = @fopen($this->fileName, 'r');
-        if (!$this->handle) {
+        $handle = @fopen($this->fileName, 'r');
+        if (!$handle) {
             throw new \Exception('File not found');
         }
 
-        while ($row = fgetcsv($this->handle)) {
+        while ($row = fgetcsv($handle)) {
             yield $this->factory->createFromArray($row);
         }
 
-        fclose($this->handle);
+        fclose($handle);
     }
 }

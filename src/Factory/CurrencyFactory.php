@@ -9,24 +9,30 @@ use Exception;
 
 class CurrencyFactory implements CurrencyFactoryInterface
 {
-    protected $curencies;
+    /**
+     * @var array<CurrencyDTO>
+     */
+    protected array $currencies;
 
-    public function __construct(array $curencies)
+    /**
+     * @param array<array> $currencies
+     */
+    public function __construct(array $currencies)
     {
-        foreach ($curencies as $curency) {
-            $name = $curency['name'];
-            $scale = $curency['scale'];
+        foreach ($currencies as $currency) {
+            $name = $currency['name'];
+            $scale = $currency['scale'];
 
-            $this->curencies[$name] = new CurrencyDTO($name, $scale);
+            $this->currencies[$name] = new CurrencyDTO($name, $scale);
         }
     }
 
-    public function getByName(string $name): ?CurrencyDTO
+    public function getByName(string $name): CurrencyDTO
     {
-        if (!isset($this->curencies[$name])) {
+        if (!isset($this->currencies[$name])) {
             throw new Exception('Currency not found');
         }
 
-        return $this->curencies[$name];
+        return $this->currencies[$name];
     }
 }

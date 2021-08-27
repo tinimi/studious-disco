@@ -9,7 +9,10 @@ use DateTimeImmutable;
 
 interface TransactionStoreInterface
 {
-    public function store(TransactionDTO $transaction);
+    public function store(TransactionDTO $transaction): void;
 
-    public function getTransactionsByWeek(DateTimeImmutable $date, string $uid);
+    /**
+     * @return array<TransactionDTO>
+     */
+    public function getTransactionsByWeek(DateTimeImmutable $date, string $uid): array;
 }

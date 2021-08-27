@@ -30,7 +30,7 @@ class Math
         return '0.'.str_repeat('0', $scale);
     }
 
-    protected function round($number, $precision = 0)
+    protected function round(string $number, int $precision = 0): string
     {
         if (strpos($number, '.') !== false) {
             if ($number[0] !== '-') {

@@ -24,6 +24,9 @@ class TransactionFactory implements TransactionFactoryInterface
         $this->rate = $rate;
     }
 
+    /**
+     * @param array<string> $row row from csv file
+     */
     public function createFromArray(array $row): TransactionDTO
     {
         return new TransactionDTO(

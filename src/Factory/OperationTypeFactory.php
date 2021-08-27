@@ -8,7 +8,10 @@ use App\DTO\OperationTypeDTO;
 
 class OperationTypeFactory implements OperationTypeFactoryInterface
 {
-    protected $operationTypes;
+    /**
+     * @var array<OperationTypeDTO>
+     */
+    protected array $operationTypes;
 
     public function getByName(string $name): OperationTypeDTO
     {

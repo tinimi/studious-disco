@@ -9,9 +9,12 @@ use DateTimeImmutable;
 
 class TransactionStore implements TransactionStoreInterface
 {
-    protected $store = [];
+    /**
+     * @var array<array>
+     */
+    protected array $store = [];
 
-    public function store(TransactionDTO $transaction)
+    public function store(TransactionDTO $transaction): void
     {
         $key = $this->getWeekKey($transaction->getDate(), $transaction->getUid());
         if (!isset($this->store[$key])) {
@@ -20,14 +23,17 @@ class TransactionStore implements TransactionStoreInterface
         $this->store[$key][] = $transaction;
     }
 
-    public function getTransactionsByWeek(DateTimeImmutable $date, string $uid)
+    /**
+     * @return array<TransactionDTO>
+     */
+    public function getTransactionsByWeek(DateTimeImmutable $date, string $uid): array
     {
         $key = $this->getWeekKey($date, $uid);
 
         return $this->store[$key] ?? [];
     }
 
-    protected function getWeekKey(DateTimeImmutable $date, string $uid)
+    protected function getWeekKey(DateTimeImmutable $date, string $uid): string
     {
         return $date->format('o-W').':'.$uid;
     }

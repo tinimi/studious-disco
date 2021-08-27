@@ -9,9 +9,15 @@ use Exception;
 
 class CommissionCalc implements CommissionCalcInterface
 {
-    protected $commissions;
+    /**
+     * @var array<array>
+     */
+    protected array $commissions;
 
-    public function __construct($commissions)
+    /**
+     * @param array<array> $commissions
+     */
+    public function __construct(array $commissions)
     {
         $this->commissions = $commissions;
     }
