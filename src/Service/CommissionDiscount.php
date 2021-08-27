@@ -8,7 +8,6 @@ use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 use App\Factory\CurrencyFactoryInterface;
 use App\Factory\TransactionFactoryInterface;
-use DivisionByZeroError;
 
 class CommissionDiscount extends AbstractCommission
 {

@@ -18,7 +18,6 @@ class ExchangeRateStub implements ExchangeRateInterface
 
     /**
      * @param array<array> $rates
-     * @param Math $math
      */
     public function __construct(array $rates, Math $math)
     {

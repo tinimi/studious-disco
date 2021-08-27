@@ -13,5 +13,4 @@ interface ReaderInterface
      * @return Generator<TransactionDTO>
      */
     public function getTransaction(): Generator;
-
 }
