@@ -30,7 +30,7 @@ class ExchangeRateStubTest extends TestCase
 
         $this->assertEquals('1', $rate->getRatio(new DateTimeImmutable(), $from, $from));
         $this->assertEquals('1.1497', $rate->getRatio(new DateTimeImmutable(), $from, $to));
-        $this->assertEquals('0.8697921196', $rate->getRatio(new DateTimeImmutable(), $to, $from));
+        $this->assertEquals('0.8697921197', $rate->getRatio(new DateTimeImmutable(), $to, $from));
     }
 
     public function testException()

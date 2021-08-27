@@ -42,6 +42,46 @@ class MathTest extends TestCase
     }
 
     /**
+     * @dataProvider dataProviderForSubTesting
+     */
+    public function testSub(string $leftOperand, string $rightOperand, int $scale, string $expectation)
+    {
+        $this->assertEquals(
+            $expectation,
+            $this->math->sub($leftOperand, $rightOperand, $scale)
+        );
+    }
+
+    public function dataProviderForSubTesting(): array
+    {
+        return [
+            ['2', '1', 2, '1.00'],
+            ['3.3', '1.1', 2, '2.20'],
+            ['3', '1.05123', 2, '1.95'],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForCompTesting
+     */
+    public function testComp(string $leftOperand, string $rightOperand, int $scale, int $expectation)
+    {
+        $this->assertEquals(
+            $expectation,
+            $this->math->comp($leftOperand, $rightOperand, $scale)
+        );
+    }
+
+    public function dataProviderForCompTesting(): array
+    {
+        return [
+            ['1', '1', 2, 0],
+            ['1.335', '1.333', 2, 1],
+            ['1', '2', 2, -1],
+        ];
+    }
+
+    /**
      * @dataProvider dataProviderForDivTesting
      */
     public function testDiv(string $leftOperand, string $rightOperand, int $scale, string $expectation)

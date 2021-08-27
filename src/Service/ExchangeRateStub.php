@@ -34,7 +34,7 @@ class ExchangeRateStub implements ExchangeRateInterface
             return $this->rates[$from->getName()][$to->getName()];
         }
         if (isset($this->rates[$to->getName()]) && isset($this->rates[$to->getName()][$from->getName()])) {
-            return bcdiv('1', $this->rates[$to->getName()][$from->getName()], 10);
+            return $this->math->div('1', $this->rates[$to->getName()][$from->getName()], 10);
         }
 
         throw new Exception('Can\'t get exchange ratio');

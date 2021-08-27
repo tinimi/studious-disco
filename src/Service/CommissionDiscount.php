@@ -50,20 +50,20 @@ class CommissionDiscount extends AbstractCommission
             $stored = $this->math->add($stored, $storedTransaction->getAmount(), $this->currency->getScale());
         }
 
-        if (bccomp($stored, $this->discountAmount, $this->currency->getScale()) >= 0) {
+        if ($this->math->comp($stored, $this->discountAmount, $this->currency->getScale()) >= 0) {
             return $this->calcCommission($transaction->getAmount(), $this->commission, $transaction->getCurrency()->getScale());
         }
 
         $sum = $this->math->add($stored, $converted->getAmount(), $this->currency->getScale());
-        if (bccomp($sum, $this->discountAmount, $this->currency->getScale()) < 0) {
+        if ($this->math->comp($sum, $this->discountAmount, $this->currency->getScale()) < 0) {
             return $this->math->getZero($transaction->getCurrency()->getScale());
         }
 
-        $overflow = bcsub($sum, $this->discountAmount, $this->currency->getScale());
+        $overflow = $this->math->sub($sum, $this->discountAmount, $this->currency->getScale());
 
         if ($transaction->getCurrency()->getName() !== $this->currency->getName()) {
             $ratio = $this->rate->getRatio($transaction->getDate(), $transaction->getCurrency(), $this->currency);
-            $overflow = bcdiv($overflow, $ratio, $transaction->getCurrency()->getScale());
+            $overflow = $this->math->div($overflow, $ratio, $transaction->getCurrency()->getScale());
         }
 
         return $this->calcCommission($overflow, $this->commission, $transaction->getCurrency()->getScale());

@@ -7,6 +7,7 @@ namespace App\Factory;
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 use App\Service\ExchangeRateInterface;
+use App\Service\Math;
 use DateTimeImmutable;
 
 class TransactionFactory implements TransactionFactoryInterface
@@ -15,13 +16,15 @@ class TransactionFactory implements TransactionFactoryInterface
     protected UserTypeFactoryInterface $userTypeFactory;
     protected OperationTypeFactoryInterface $operationTypeFactory;
     protected ExchangeRateInterface $rate;
+    protected Math $math;
 
-    public function __construct(CurrencyFactoryInterface $currencyFactory, UserTypeFactoryInterface $userTypeFactory, OperationTypeFactoryInterface $operationTypeFactory, ExchangeRateInterface $rate)
+    public function __construct(CurrencyFactoryInterface $currencyFactory, UserTypeFactoryInterface $userTypeFactory, OperationTypeFactoryInterface $operationTypeFactory, ExchangeRateInterface $rate, Math $math)
     {
         $this->currencyFactory = $currencyFactory;
         $this->userTypeFactory = $userTypeFactory;
         $this->operationTypeFactory = $operationTypeFactory;
         $this->rate = $rate;
+        $this->math = $math;
     }
 
     /**
@@ -43,7 +46,7 @@ class TransactionFactory implements TransactionFactoryInterface
     {
         $ratio = $this->rate->getRatio($transaction->getDate(), $transaction->getCurrency(), $currency);
 
-        $converted = bcmul($transaction->getAmount(), $ratio, $currency->getScale());
+        $converted = $this->math->mul($transaction->getAmount(), $ratio, $currency->getScale());
 
         return new TransactionDTO(
             $transaction->getDate(),

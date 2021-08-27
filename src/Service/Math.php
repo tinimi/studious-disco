@@ -8,15 +8,29 @@ class Math
 {
     public function add(string $leftOperand, string $rightOperand, int $scale): string
     {
-        return bcadd($leftOperand, $rightOperand, $scale);
+        return $this->round(bcadd($leftOperand, $rightOperand, $scale + 1), $scale);
+    }
+
+    public function sub(string $num1, string $num2, int $scale): string
+    {
+        return $this->round(bcsub($num1, $num2, $scale + 1), $scale);
     }
 
     public function div(string $num1, string $num2, int $scale): string
     {
-        return $this->round(bcdiv($num1, $num2, $scale + 1), $scale);
+        $result = bcdiv($num1, $num2, $scale + 1);
+        /*
+         * This is trick for phpstan only. Generally bcdiv throws fatal error in case of division by zero
+         */
+        // if (null === $result) {
+        //     $result = '0';
+        // }
+        $result = $result ?? '0';
+
+        return $this->round($result, $scale);
     }
 
-    public function mul(string $num1, string $num2, ?int $scale = null): string
+    public function mul(string $num1, string $num2, int $scale): string
     {
         return $this->round(bcmul($num1, $num2, $scale + 1), $scale);
     }
@@ -30,7 +44,12 @@ class Math
         return '0.'.str_repeat('0', $scale);
     }
 
-    protected function round(string $number, int $precision = 0): string
+    public function comp(string $num1, string $num2, int $scale): int
+    {
+        return bccomp($this->round($num1, $scale), $this->round($num2, $scale), $scale);
+    }
+
+    protected function round(string $number, int $precision): string
     {
         if (strpos($number, '.') !== false) {
             if ($number[0] !== '-') {
