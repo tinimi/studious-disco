@@ -6,8 +6,8 @@ namespace App\DTO;
 
 class CurrencyDTO
 {
-    protected $name;
-    protected $scale;
+    protected string $name;
+    protected int $scale;
 
     public function __construct(string $name, int $scale)
     {

@@ -24,7 +24,7 @@ class TransactionStore implements TransactionStoreInterface
     {
         $key = $this->getWeekKey($date, $uid);
 
-        return isset($this->store[$key]) ? $this->store[$key] : [];
+        return $this->store[$key] ?? [];
     }
 
     protected function getWeekKey(DateTimeImmutable $date, string $uid)

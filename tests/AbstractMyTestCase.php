@@ -19,7 +19,7 @@ abstract class AbstractMyTestCase extends TestCase
         $this->container = new ContainerBuilder();
         $loader = new YamlFileLoader($this->container, new FileLocator(dirname(__DIR__)));
         $loader->load('config/services.yaml');
-        $loader->load('tests/services.yaml');
+        $loader->load('config/services_test.yaml');
         $this->container->setParameter('filename', $this->fileName);
 
         $this->container->compile();

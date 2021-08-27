@@ -42,8 +42,6 @@ class TransactionFactory implements TransactionFactoryInterface
 
         $converted = bcmul($transaction->getAmount(), $ratio, $currency->getScale());
 
-        //echo $currency->getName() . " -> " . $transaction->getCurrency()->getName() . ": " . $transaction->getAmount() . ' ' . $ratio . ' ' . $converted . "\n";
-
         return new TransactionDTO(
             $transaction->getDate(),
             $transaction->getUid(),

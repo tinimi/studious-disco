@@ -22,6 +22,9 @@ You could use stub instead of real api. This will save api usage. Change followi
 -        alias: App\Service\ExchangeRateApi
 +        alias: App\Service\ExchangeRateStub
 ```
+## Build
+1. `./build.sh` to build docker image.
+2. `./php.sh composer install` to install all dependencies.
 ## Execute
 ```
 ./php.sh php run.php test.csv
