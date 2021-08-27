@@ -8,9 +8,9 @@ use App\Runner;
 
 class RunnerTest extends AbstractMyTestCase
 {
-    protected $fileName = '/tmp/test.csv';
+    protected string $fileName = '/tmp/test.csv';
 
-    public function testRunnerWithoutSort()
+    public function testRunnerWithoutSort(): void
     {
         $data = <<<QWE
         2014-12-31,4,private,withdraw,1200.00,EUR
@@ -45,11 +45,15 @@ class RunnerTest extends AbstractMyTestCase
         ASD);
         file_put_contents($this->fileName, $data);
 
+        /**
+         * @var Runner;
+         */
         $runner = $this->container->get(Runner::class);
+        $this->assertNotNull($runner);
         $runner->runWithoutSort();
     }
 
-    public function testRunnerWithSort()
+    public function testRunnerWithSort(): void
     {
         $data = <<<QWE
         2016-02-19,5,private,withdraw,3000000,JPY
@@ -84,11 +88,15 @@ class RunnerTest extends AbstractMyTestCase
         ASD);
         file_put_contents($this->fileName, $data);
 
+        /**
+         * @var Runner;
+         */
         $runner = $this->container->get(Runner::class);
+        $this->assertNotNull($runner);
         $runner->runWithSort();
     }
 
-    public function testRun1()
+    public function testRun1(): void
     {
         $stub = $this->getMockBuilder(Runner::class)
             ->disableOriginalConstructor()
@@ -104,7 +112,7 @@ class RunnerTest extends AbstractMyTestCase
             ->method('runWithoutSort');
 
         $propertyClosure = function () {
-            $this->sort = true;
+            $this->sort = true; // @phpstan-ignore-line
             $this->run();
         };
 
@@ -112,7 +120,7 @@ class RunnerTest extends AbstractMyTestCase
         $doPropertyClosure();
     }
 
-    public function testRun2()
+    public function testRun2(): void
     {
         $stub = $this->getMockBuilder(Runner::class)
             ->disableOriginalConstructor()
@@ -128,7 +136,7 @@ class RunnerTest extends AbstractMyTestCase
             ->method('runWithSort');
 
         $propertyClosure = function () {
-            $this->sort = false;
+            $this->sort = false; // @phpstan-ignore-line
             $this->run();
         };
 

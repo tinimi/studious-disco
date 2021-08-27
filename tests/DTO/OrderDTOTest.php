@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace App\Tests\DTO;
 
 use App\DTO\OrderDTO;
+use App\Factory\TransactionFactoryInterface;
 use App\Tests\AbstractMyTestCase;
 
 class OrderDTOTest extends AbstractMyTestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
+
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 
         $order = new OrderDTO(10, $transaction);

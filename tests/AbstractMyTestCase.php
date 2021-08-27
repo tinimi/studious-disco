@@ -11,9 +11,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 abstract class AbstractMyTestCase extends TestCase
 {
-    protected $container;
-    protected $fileName = 'qwe';
+    protected ContainerBuilder $container;
+    protected string $fileName = 'qwe';
 
+    /**
+     * @param array<array> $data
+     */
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         $this->container = new ContainerBuilder();

@@ -13,7 +13,7 @@ class OperationTypeFactoryTest extends TestCase
     /**
      * @dataProvider getTypes
      */
-    public function testGetByName($name)
+    public function testGetByName(string $name): void
     {
         $factory = new OperationTypeFactory();
         $type = $factory->getByName($name);
@@ -22,7 +22,10 @@ class OperationTypeFactoryTest extends TestCase
         $this->assertEquals($name, $type->getName());
     }
 
-    public function getTypes()
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public function getTypes(): array
     {
         return [
             ['deposit'],

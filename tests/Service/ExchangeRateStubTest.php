@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class ExchangeRateStubTest extends TestCase
 {
-    public function testGetByName()
+    public function testGetByName(): void
     {
         $rate = new ExchangeRateStub(
             [
@@ -33,7 +33,7 @@ class ExchangeRateStubTest extends TestCase
         $this->assertEquals('0.8697921197', $rate->getRatio(new DateTimeImmutable(), $to, $from));
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(Exception::class);
 

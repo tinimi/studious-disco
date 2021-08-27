@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Factory\TransactionFactoryInterface;
 use App\Service\CommissionCalc;
 use App\Service\CommissionConstant;
 use App\Tests\AbstractMyTestCase;
@@ -11,19 +12,23 @@ use Exception;
 
 class CommissionCalcTest extends AbstractMyTestCase
 {
-    public function testNotConfigured()
+    public function testNotConfigured(): void
     {
         $this->expectException(Exception::class);
 
         $calc = new CommissionCalc([]);
 
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 
         $calc->calc($transaction);
     }
 
-    public function testNotConfigured2()
+    public function testNotConfigured2(): void
     {
         $this->expectException(Exception::class);
 
@@ -32,13 +37,17 @@ class CommissionCalcTest extends AbstractMyTestCase
             ],
         ]);
 
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 
         $calc->calc($transaction);
     }
 
-    public function testConfigured()
+    public function testConfigured(): void
     {
         $withdrawPrivate = $this->createStub(CommissionConstant::class);
         $withdrawPrivate->method('calc')
@@ -67,7 +76,11 @@ class CommissionCalcTest extends AbstractMyTestCase
             ],
         ]);
 
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
 
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 

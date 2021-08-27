@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Factory\TransactionFactoryInterface;
 use App\Service\CommissionConstant;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
 
 class CommissionConstantTest extends AbstractMyTestCase
 {
-    public function provider()
+    /**
+     * @return array<array>
+     */
+    public function provider(): array
     {
         return [
             ['0', '1200.00', '0.00'],
@@ -25,11 +29,15 @@ class CommissionConstantTest extends AbstractMyTestCase
     /**
      * @dataProvider provider
      */
-    public function testCommission($commission, $amount, $result)
+    public function testCommission(string $commission, string $amount, string $result): void
     {
         $commission = new CommissionConstant(new Math(), $commission);
 
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', $amount, 'EUR']);
 
         $this->assertEquals($result, $commission->calc($transaction));

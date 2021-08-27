@@ -13,13 +13,16 @@ class UserTypeDTOTest extends TestCase
     /**
      * @dataProvider getTypes
      */
-    public function testGetName($name)
+    public function testGetName(string $name): void
     {
         $type = new UserTypeDTO($name);
         $this->assertEquals($name, $type->getName());
     }
 
-    public function getTypes()
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public function getTypes(): array
     {
         return [
             ['private'],
@@ -27,7 +30,7 @@ class UserTypeDTOTest extends TestCase
         ];
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(Exception::class);
         $t = new UserTypeDTO('qwe');

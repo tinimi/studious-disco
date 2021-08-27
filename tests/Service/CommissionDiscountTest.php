@@ -5,18 +5,35 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Factory\CurrencyFactoryInterface;
+use App\Factory\TransactionFactoryInterface;
 use App\Service\CommissionDiscount;
 use App\Service\ExchangeRateInterface;
-//use App\Factory\CurrencyFactory;
 use App\Service\Math;
 use App\Service\TransactionStore;
 use App\Tests\AbstractMyTestCase;
 
 class CommissionDiscountTest extends AbstractMyTestCase
 {
-    public function testCommission()
+    public function testCommission(): void
     {
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
+
+        /**
+         * @var CurrencyFactoryInterface
+         */
+        $currencyFactory = $this->container->get(CurrencyFactoryInterface::class);
+        $this->assertNotNull($currencyFactory);
+
+        /**
+         * @var ExchangeRateInterface
+         */
+        $rate = $this->container->get(ExchangeRateInterface::class);
+        $this->assertNotNull($rate);
+
         $commission = new CommissionDiscount(
             new Math(),
             '0.3',
@@ -24,9 +41,9 @@ class CommissionDiscountTest extends AbstractMyTestCase
             'EUR',
             2,
             new TransactionStore(),
-            $this->container->get(CurrencyFactoryInterface::class),
+            $currencyFactory,
             $transactionFactory,
-            $this->container->get(ExchangeRateInterface::class)
+            $rate
         );
 
         $this->assertEquals('0.00', $commission->calc($transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '10', 'EUR'])));

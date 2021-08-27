@@ -13,13 +13,16 @@ class OperationTypeDTOTest extends TestCase
     /**
      * @dataProvider getTypes
      */
-    public function testGetName($name)
+    public function testGetName(string $name): void
     {
         $type = new OperationTypeDTO($name);
         $this->assertEquals($name, $type->getName());
     }
 
-    public function getTypes()
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public function getTypes(): array
     {
         return [
             ['deposit'],
@@ -27,7 +30,7 @@ class OperationTypeDTOTest extends TestCase
         ];
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(Exception::class);
         $t = new OperationTypeDTO('deposit2');

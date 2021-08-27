@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class TransactionDTOTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $t = new TransactionDTO(
             $date = new DateTimeImmutable('2020-01-02'),

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class CurrencyFactoryTest extends TestCase
 {
-    public function testGetByName()
+    public function testGetByName(): void
     {
         $factory = new CurrencyFactory([
             [
@@ -27,7 +27,7 @@ class CurrencyFactoryTest extends TestCase
         $this->assertEquals(3, $currency->getScale());
     }
 
-    public function testGetByNameException()
+    public function testGetByNameException(): void
     {
         $this->expectException(Exception::class);
         $factory = new CurrencyFactory([

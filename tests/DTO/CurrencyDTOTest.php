@@ -9,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class CurrencyDTOTest extends TestCase
 {
-    public function testGetName()
+    public function testGetName(): void
     {
         $currency = new CurrencyDTO('USD', 3);
         $this->assertEquals('USD', $currency->getName());
     }
 
-    public function testGetScale()
+    public function testGetScale(): void
     {
         $currency = new CurrencyDTO('USD', 3);
         $this->assertEquals(3, $currency->getScale());

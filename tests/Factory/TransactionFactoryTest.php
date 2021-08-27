@@ -6,13 +6,18 @@ namespace App\Tests\Factory;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
+use App\Factory\TransactionFactoryInterface;
 use App\Tests\AbstractMyTestCase;
 
 class TransactionFactoryTest extends AbstractMyTestCase
 {
-    public function testCreateFromArray()
+    public function testCreateFromArray(): void
     {
+        /**
+         * @var TransactionFactoryInterface
+         */
         $transactionFactory = $this->container->get('TransactionFactory');
+        $this->assertNotNull($transactionFactory);
 
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 

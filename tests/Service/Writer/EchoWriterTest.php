@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class EchoWriterTest extends TestCase
 {
-    public function testWrite()
+    public function testWrite(): void
     {
         $writer = new EchoWriter();
         $writer->write('test');

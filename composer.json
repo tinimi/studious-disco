@@ -32,7 +32,7 @@
         "phpunit": "phpunit",
         "fix-cs": "php-cs-fixer fix",
         "test-cs": "php-cs-fixer fix --dry-run -v",
-        "stan": "bin/phpstan analyse -l 8 src",
+        "stan": "bin/phpstan analyse -l 8 src tests",
         "test": ["@phpunit", "@test-cs", "@stan"]
     }
 }

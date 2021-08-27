@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Service\Math;
+use Closure;
 use PHPUnit\Framework\TestCase;
 
 class MathTest extends TestCase
 {
-    protected $math;
+    protected Math $math;
 
     public function setUp(): void
     {
@@ -24,7 +25,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForAddTesting
      */
-    public function testAdd(string $leftOperand, string $rightOperand, int $scale, string $expectation)
+    public function testAdd(string $leftOperand, string $rightOperand, int $scale, string $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -32,6 +33,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForAddTesting(): array
     {
         return [
@@ -44,7 +48,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForSubTesting
      */
-    public function testSub(string $leftOperand, string $rightOperand, int $scale, string $expectation)
+    public function testSub(string $leftOperand, string $rightOperand, int $scale, string $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -52,6 +56,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForSubTesting(): array
     {
         return [
@@ -64,7 +71,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForCompTesting
      */
-    public function testComp(string $leftOperand, string $rightOperand, int $scale, int $expectation)
+    public function testComp(string $leftOperand, string $rightOperand, int $scale, int $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -72,6 +79,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForCompTesting(): array
     {
         return [
@@ -84,7 +94,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForDivTesting
      */
-    public function testDiv(string $leftOperand, string $rightOperand, int $scale, string $expectation)
+    public function testDiv(string $leftOperand, string $rightOperand, int $scale, string $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -92,6 +102,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForDivTesting(): array
     {
         return [
@@ -106,7 +119,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForMulTesting
      */
-    public function testMul(string $leftOperand, string $rightOperand, int $scale, string $expectation)
+    public function testMul(string $leftOperand, string $rightOperand, int $scale, string $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -114,6 +127,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForMulTesting(): array
     {
         return [
@@ -129,18 +145,17 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForRound
      */
-    public function testRound($number, $precision, $expectation)
+    public function testRound(string $number, int $precision, string $expectation): void
     {
         $that = $this;
-        $assertPropertyClosure = function () use ($that, $number, $precision, $expectation) {
-            $that->assertEquals($expectation, $this->round($number, $precision));
-        };
-
-        $doAssertPropertyClosure = $assertPropertyClosure->bindTo($this->math, get_class($this->math));
-
-        $doAssertPropertyClosure();
+        Closure::bind(function () use ($that, $number, $precision, $expectation) {
+            $that->assertEquals($expectation, $this->round($number, $precision)); // @phpstan-ignore-line
+        }, $this->math, get_class($this->math))();
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForRound(): array
     {
         return [
@@ -153,7 +168,7 @@ class MathTest extends TestCase
     /**
      * @dataProvider dataProviderForGetZero
      */
-    public function testgetZero(int $scale, string $expectation)
+    public function testgetZero(int $scale, string $expectation): void
     {
         $this->assertEquals(
             $expectation,
@@ -161,6 +176,9 @@ class MathTest extends TestCase
         );
     }
 
+    /**
+     * @return array<array>
+     */
     public function dataProviderForGetZero()
     {
         return [

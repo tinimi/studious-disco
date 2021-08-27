@@ -34,7 +34,7 @@ class ExchangeRateApiTest extends TestCase
         return new ExchangeRateApi($stub, $isPaid, new Math());
     }
 
-    public function testSame()
+    public function testSame(): void
     {
         $api = $this->getApi(false, 1.5);
 
@@ -42,7 +42,7 @@ class ExchangeRateApiTest extends TestCase
         $this->assertEquals('1', $api->getRatio(new DateTimeImmutable(), $from, $from));
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(Exception::class);
 
@@ -54,7 +54,7 @@ class ExchangeRateApiTest extends TestCase
         $api->getRatio(new DateTimeImmutable(), $from, $to);
     }
 
-    public function testNoException()
+    public function testNoException(): void
     {
         $api = $this->getApi(true, 1.5);
 
@@ -64,7 +64,7 @@ class ExchangeRateApiTest extends TestCase
         $this->assertEquals('1.5', $api->getRatio(new DateTimeImmutable(), $from, $to));
     }
 
-    public function testInverse()
+    public function testInverse(): void
     {
         $api = $this->getApi(false, 1.5);
 
@@ -74,7 +74,7 @@ class ExchangeRateApiTest extends TestCase
         $this->assertEquals('0.6666666667', $api->getRatio(new DateTimeImmutable(), $from, $to));
     }
 
-    public function testSuccess()
+    public function testSuccess(): void
     {
         $api = $this->getApi(false, 1.5);
 
