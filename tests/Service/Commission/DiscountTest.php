@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Commission;
 
-use App\Factory\CurrencyFactory;
-use App\Factory\TransactionFactory;
+use App\Repository\CurrencyRepository;
+use App\Repository\TransactionRepository;
 use App\Service\Commission\Discount;
 use App\Service\ExchangeRate\Stub;
 use App\Service\Math;
@@ -18,7 +18,7 @@ class DiscountTest extends AbstractMyTestCase
     {
         $math = new Math();
 
-        $currencyFactory = new CurrencyFactory([
+        $currencyRepository = new CurrencyRepository([
             [
                 'name' => 'EUR',
                 'scale' => 2,
@@ -40,7 +40,7 @@ class DiscountTest extends AbstractMyTestCase
             ],
         ], $math);
 
-        $transactionFactory = new TransactionFactory($currencyFactory, $rate, $math);
+        $transactionRepository = new TransactionRepository($currencyRepository, $rate, $math);
 
         $commission = new Discount(
             new Math(),
@@ -49,8 +49,8 @@ class DiscountTest extends AbstractMyTestCase
             'EUR',
             2,
             new TransactionStore(),
-            $currencyFactory,
-            $transactionFactory,
+            $currencyRepository,
+            $transactionRepository,
             $rate
         );
 

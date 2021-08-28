@@ -6,8 +6,8 @@ namespace App\Service\Commission;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
-use App\Factory\CurrencyFactoryInterface;
-use App\Factory\TransactionFactoryInterface;
+use App\Repository\CurrencyRepositoryInterface;
+use App\Repository\TransactionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateInterface;
 use App\Service\Math;
 use App\Service\TransactionStoreInterface;
@@ -20,11 +20,11 @@ class Discount extends AbstractCommission
     protected int $discountCount;
 
     protected TransactionStoreInterface $store;
-    protected TransactionFactoryInterface $transactionFactory;
+    protected TransactionRepositoryInterface $transactionRepository;
     protected ExchangeRateInterface $rate;
 
     public function __construct(Math $math, string $commission, string $discountAmount, string $discountCurrency, int $discountCount,
-        TransactionStoreInterface $store, CurrencyFactoryInterface $currencyFactory, TransactionFactoryInterface $transactionFactory, ExchangeRateInterface $rate)
+        TransactionStoreInterface $store, CurrencyRepositoryInterface $currencyRepository, TransactionRepositoryInterface $transactionRepository, ExchangeRateInterface $rate)
     {
         parent::__construct($math);
         $this->commission = $commission;
@@ -32,8 +32,8 @@ class Discount extends AbstractCommission
         $this->discountCount = $discountCount;
 
         $this->store = $store;
-        $this->currency = $currencyFactory->getByName($discountCurrency);
-        $this->transactionFactory = $transactionFactory;
+        $this->currency = $currencyRepository->getByName($discountCurrency);
+        $this->transactionRepository = $transactionRepository;
         $this->rate = $rate;
     }
 
@@ -45,7 +45,7 @@ class Discount extends AbstractCommission
             return $this->calcCommission($transaction->getAmount(), $this->commission, $transaction->getCurrency()->getScale());
         }
 
-        $converted = $this->transactionFactory->convert($transaction, $this->currency);
+        $converted = $this->transactionRepository->convert($transaction, $this->currency);
         $this->store->store($converted);
 
         $stored = '0';

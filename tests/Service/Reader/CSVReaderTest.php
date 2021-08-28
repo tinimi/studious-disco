@@ -7,7 +7,7 @@ namespace App\Tests\Service;
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 use App\Exceptions\FileNotFoundException;
-use App\Factory\TransactionFactoryInterface;
+use App\Repository\TransactionRepositoryInterface;
 use App\Service\Reader\CSVReader;
 use DateTimeImmutable;
 use org\bovigo\vfs\vfsStream;
@@ -28,10 +28,10 @@ class CSVReaderTest extends TestCase
             $currency = new CurrencyDTO('USD', 2)
         );
 
-        $transactionFactory = $this->createStub(TransactionFactoryInterface::class);
-        $transactionFactory->method('createFromArray')->willReturn($transaction);
+        $transactionRepository = $this->createStub(TransactionRepositoryInterface::class);
+        $transactionRepository->method('createFromArray')->willReturn($transaction);
 
-        $reader = new CSVReader($transactionFactory);
+        $reader = new CSVReader($transactionRepository);
         $reader->setFileName('/tmp/qwe/asdf/zxcv');
         foreach ($reader->getTransaction() as $t) {
         }
@@ -54,10 +54,10 @@ class CSVReaderTest extends TestCase
             $currency = new CurrencyDTO('USD', 2)
         );
 
-        $transactionFactory = $this->createStub(TransactionFactoryInterface::class);
-        $transactionFactory->method('createFromArray')->willReturn($transaction);
+        $transactionRepository = $this->createStub(TransactionRepositoryInterface::class);
+        $transactionRepository->method('createFromArray')->willReturn($transaction);
 
-        $reader = new CSVReader($transactionFactory);
+        $reader = new CSVReader($transactionRepository);
         $reader->setFileName($root->url().'/input.csv');
         foreach ($reader->getTransaction() as $transaction) {
             $this->assertInstanceOf(TransactionDTO::class, $transaction);

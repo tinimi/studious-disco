@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Factory;
+namespace App\Tests\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\Exceptions\CurrencyNotFoundException;
-use App\Factory\CurrencyFactory;
+use App\Repository\CurrencyRepository;
 use PHPUnit\Framework\TestCase;
 
-class CurrencyFactoryTest extends TestCase
+class CurrencyRepositoryTest extends TestCase
 {
     public function testGetByName(): void
     {
-        $factory = new CurrencyFactory([
+        $Repository = new CurrencyRepository([
             [
                 'name' => 'USD',
                 'scale' => 3,
             ],
         ]);
 
-        $currency = $factory->getByName('USD');
+        $currency = $Repository->getByName('USD');
 
         $this->assertInstanceOf(CurrencyDTO::class, $currency);
         $this->assertEquals('USD', $currency->getName());
@@ -30,13 +30,13 @@ class CurrencyFactoryTest extends TestCase
     public function testGetByNameException(): void
     {
         $this->expectException(CurrencyNotFoundException::class);
-        $factory = new CurrencyFactory([
+        $Repository = new CurrencyRepository([
             [
                 'name' => 'USD',
                 'scale' => 3,
             ],
         ]);
 
-        $currency = $factory->getByName('USD2');
+        $currency = $Repository->getByName('USD2');
     }
 }

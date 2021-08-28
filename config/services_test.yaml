@@ -1,10 +1,10 @@
 services:
-    TransactionFactory:
-        alias: App\Factory\TransactionFactory
+    TransactionRepository:
+        alias: App\Repository\TransactionRepository
         public: true
     App\Service\ExchangeRate\ExchangeRateInterface:
         alias: App\Service\ExchangeRate\Stub
         public: true
-    App\Factory\CurrencyFactoryInterface:
-        alias: App\Factory\CurrencyFactory
+    App\Repository\CurrencyRepositoryInterface:
+        alias: App\Repository\CurrencyRepository
         public: true

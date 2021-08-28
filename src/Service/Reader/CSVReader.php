@@ -6,17 +6,17 @@ namespace App\Service\Reader;
 
 use App\DTO\TransactionDTO;
 use App\Exceptions\FileNotFoundException;
-use App\Factory\TransactionFactoryInterface;
+use App\Repository\TransactionRepositoryInterface;
 use Generator;
 
 class CSVReader implements ReaderInterface
 {
-    protected TransactionFactoryInterface $factory;
+    protected TransactionRepositoryInterface $Repository;
     protected string $fileName;
 
-    public function __construct(TransactionFactoryInterface $factory)
+    public function __construct(TransactionRepositoryInterface $Repository)
     {
-        $this->factory = $factory;
+        $this->Repository = $Repository;
     }
 
     public function setFileName(string $fileName): void
@@ -35,7 +35,7 @@ class CSVReader implements ReaderInterface
         }
 
         while ($row = fgetcsv($handle)) {
-            yield $this->factory->createFromArray($row);
+            yield $this->Repository->createFromArray($row);
         }
 
         fclose($handle);

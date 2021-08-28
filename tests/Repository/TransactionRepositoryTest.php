@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Factory;
+namespace App\Tests\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
-use App\Factory\CurrencyFactory;
-use App\Factory\TransactionFactory;
+use App\Repository\CurrencyRepository;
+use App\Repository\TransactionRepository;
 use App\Service\ExchangeRate\Stub;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
 
-class TransactionFactoryTest extends AbstractMyTestCase
+class TransactionRepositoryTest extends AbstractMyTestCase
 {
     public function testCreateFromArray(): void
     {
         $math = new Math();
 
-        $currencyFactory = new CurrencyFactory([
+        $currencyRepository = new CurrencyRepository([
             [
                 'name' => 'EUR',
                 'scale' => 2,
@@ -40,14 +40,14 @@ class TransactionFactoryTest extends AbstractMyTestCase
             ],
         ], $math);
 
-        $transactionFactory = new TransactionFactory($currencyFactory, $rate, $math);
+        $transactionRepository = new TransactionRepository($currencyRepository, $rate, $math);
 
-        $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction = $transactionRepository->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 
         $this->assertInstanceOf(TransactionDTO::class, $transaction);
         $this->assertEquals('4', $transaction->getUid());
 
-        $converted = $transactionFactory->convert($transaction, new CurrencyDTO('USD', 2));
+        $converted = $transactionRepository->convert($transaction, new CurrencyDTO('USD', 2));
         $this->assertEquals('1379.64', $converted->getAmount());
     }
 }

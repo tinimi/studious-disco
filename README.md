@@ -26,7 +26,7 @@ You could use stub instead of real api. This will save api usage. Change followi
 2. `./php.sh composer install` to install all dependencies.
 ## Execute
 ```
-./php.sh php run.php test.csv
+./php.sh php run.php data/test.csv
 ```
 ## Tests
 Run `./php.sh composer test`

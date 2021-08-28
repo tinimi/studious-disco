@@ -43,7 +43,7 @@ services:
         arguments:
             $sort: '%env(bool:default:default.sort:APP_SORT)%'
 
-    App\Factory\CurrencyFactory:
+    App\Repository\CurrencyRepository:
         arguments: ['%currencies%']
    
     App\Service\ExchangeRate\Stub:

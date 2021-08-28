@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
@@ -12,15 +12,15 @@ use App\Service\Math;
 use DateTimeImmutable;
 use Exception;
 
-class TransactionFactory implements TransactionFactoryInterface
+class TransactionRepository implements TransactionRepositoryInterface
 {
-    protected CurrencyFactoryInterface $currencyFactory;
+    protected CurrencyRepositoryInterface $currencyRepository;
     protected ExchangeRateInterface $rate;
     protected Math $math;
 
-    public function __construct(CurrencyFactoryInterface $currencyFactory, ExchangeRateInterface $rate, Math $math)
+    public function __construct(CurrencyRepositoryInterface $currencyRepository, ExchangeRateInterface $rate, Math $math)
     {
-        $this->currencyFactory = $currencyFactory;
+        $this->currencyRepository = $currencyRepository;
         $this->rate = $rate;
         $this->math = $math;
     }
@@ -48,7 +48,7 @@ class TransactionFactory implements TransactionFactoryInterface
             $row[2],
             $row[3],
             $row[4],
-            $this->currencyFactory->getByName($row[5])
+            $this->currencyRepository->getByName($row[5])
         );
     }
 

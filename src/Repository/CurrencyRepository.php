@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\Exceptions\CurrencyNotFoundException;
 
-class CurrencyFactory implements CurrencyFactoryInterface
+class CurrencyRepository implements CurrencyRepositoryInterface
 {
     /**
      * @var array<CurrencyDTO>

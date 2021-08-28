@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 
-interface TransactionFactoryInterface
+interface TransactionRepositoryInterface
 {
     /**
      * @param array<string> $row row from csv file
