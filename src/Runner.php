@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\DTO\OrderDTO;
+use App\Exceptions\AppException;
 use App\Service\CommissionCalcInterface;
 use App\Service\Reader\ReaderInterface;
 use App\Service\Writer\WriterInterface;
@@ -38,18 +39,24 @@ class Runner
             return 1;
         }
 
-        $this->run($argv[1]);
-
-        return 0;
+        return $this->run($argv[1]);
     }
 
-    public function run(string $fileName): void
+    public function run(string $fileName): int
     {
         $this->logger->notice('Run', [$this->sort]);
-        if ($this->sort) {
-            $this->runWithSort($fileName);
-        } else {
-            $this->runWithoutSort($fileName);
+        try {
+            if ($this->sort) {
+                $this->runWithSort($fileName);
+            } else {
+                $this->runWithoutSort($fileName);
+            }
+
+            return 0;
+        } catch (AppException $e) {
+            $this->logger->error($e->getMessage());
+
+            return 1;
         }
     }
 
