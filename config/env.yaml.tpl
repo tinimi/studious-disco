@@ -1,3 +1,0 @@
-parameters:
-  exchangeratesapi.io.isPaid: false
-  exchangeratesapi.io.key: ...

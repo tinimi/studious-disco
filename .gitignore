@@ -2,4 +2,4 @@ vendor/
 bin/
 logs/
 .phpunit.result.cache
-env.yaml
+.env
