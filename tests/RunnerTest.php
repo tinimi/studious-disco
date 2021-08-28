@@ -52,7 +52,7 @@ class RunnerTest extends AbstractMyTestCase
         /**
          * @var Runner;
          */
-        $runner = $this->container->get(Runner::class);
+        $runner = $this->getContainer()->get(Runner::class);
         $this->assertNotNull($runner);
         $runner->runWithoutSort($root->url().'/input.csv');
     }
@@ -99,7 +99,7 @@ class RunnerTest extends AbstractMyTestCase
         /**
          * @var Runner;
          */
-        $runner = $this->container->get(Runner::class);
+        $runner = $this->getContainer()->get(Runner::class);
         $this->assertNotNull($runner);
         $runner->runWithSort($root->url().'/input.csv');
     }

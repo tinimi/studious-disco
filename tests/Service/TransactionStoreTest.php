@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Factory\TransactionFactoryInterface;
 use App\Service\TransactionStore;
 use App\Tests\AbstractMyTestCase;
 
@@ -14,16 +13,10 @@ class TransactionStoreTest extends AbstractMyTestCase
     {
         $store = new TransactionStore();
 
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
-
-        $transaction1 = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
-        $transaction2 = $transactionFactory->createFromArray(['2014-12-30', '4', 'private', 'withdraw', '1200', 'EUR']);
-        $transaction3 = $transactionFactory->createFromArray(['2014-12-30', '5', 'private', 'withdraw', '1200', 'EUR']);
-        $transaction4 = $transactionFactory->createFromArray(['2015-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction1 = $this->createTransactionFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction2 = $this->createTransactionFromArray(['2014-12-30', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction3 = $this->createTransactionFromArray(['2014-12-30', '5', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction4 = $this->createTransactionFromArray(['2015-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 
         $store->store($transaction1);
         $store->store($transaction2);

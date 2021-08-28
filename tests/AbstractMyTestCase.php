@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\DTO\CurrencyDTO;
+use App\DTO\TransactionDTO;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,18 +17,32 @@ abstract class AbstractMyTestCase extends TestCase
     protected ContainerBuilder $container;
     protected string $fileName = 'qwe';
 
-    /**
-     * @param array<array> $data
-     */
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    protected function getContainer(): ContainerBuilder
     {
-        $this->container = new ContainerBuilder();
-        $loader = new YamlFileLoader($this->container, new FileLocator(dirname(__DIR__)));
-        $loader->load('config/services.yaml');
-        $loader->load('config/services_test.yaml');
+        if (!isset($this->container)) {
+            $this->container = new ContainerBuilder();
+            $loader = new YamlFileLoader($this->container, new FileLocator(dirname(__DIR__)));
+            $loader->load('config/services.yaml');
+            $loader->load('config/services_test.yaml');
 
-        $this->container->compile(true);
+            $this->container->compile(true);
+        }
 
-        parent::__construct($name, $data, $dataName);
+        return $this->container;
+    }
+
+    /**
+     * @param array<string> $row
+     */
+    protected function createTransactionFromArray(array $row): TransactionDTO
+    {
+        return new TransactionDTO(
+            $date = new DateTimeImmutable($row[0]),
+            $row[1],
+            $row[2],
+            $row[3],
+            $row[4],
+            $currency = new CurrencyDTO($row[5], 'JPY' === $row[5] ? 0 : 2)
+        );
     }
 }

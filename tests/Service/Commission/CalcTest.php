@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Commission;
 
+use App\DTO\CurrencyDTO;
+use App\DTO\TransactionDTO;
 use App\Exceptions\CommissionCalcException;
-use App\Factory\TransactionFactoryInterface;
 use App\Service\Commission\Calc;
 use App\Service\Commission\Constant;
 use App\Tests\AbstractMyTestCase;
+use DateTimeImmutable;
 
 class CalcTest extends AbstractMyTestCase
 {
@@ -18,12 +20,14 @@ class CalcTest extends AbstractMyTestCase
 
         $calc = new Calc([]);
 
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
-        $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction = new TransactionDTO(
+            $date = new DateTimeImmutable('2020-01-02'),
+            '123',
+            'private',
+            'deposit',
+            '1200',
+            $currency = new CurrencyDTO('EUR', 2)
+        );
 
         $calc->calc($transaction);
     }
@@ -37,12 +41,14 @@ class CalcTest extends AbstractMyTestCase
             ],
         ]);
 
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
-        $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
+        $transaction = new TransactionDTO(
+            $date = new DateTimeImmutable('2020-01-02'),
+            '123',
+            'private',
+            'deposit',
+            '1200',
+            $currency = new CurrencyDTO('EUR', 2)
+        );
 
         $calc->calc($transaction);
     }
@@ -76,17 +82,9 @@ class CalcTest extends AbstractMyTestCase
             ],
         ]);
 
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
-
-        $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
-
-        $this->assertEquals('10.00', $calc->calc($transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR'])));
-        $this->assertEquals('20.00', $calc->calc($transactionFactory->createFromArray(['2014-12-31', '4', 'business', 'withdraw', '1200', 'EUR'])));
-        $this->assertEquals('30.00', $calc->calc($transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'deposit', '1200', 'EUR'])));
-        $this->assertEquals('40.00', $calc->calc($transactionFactory->createFromArray(['2014-12-31', '4', 'business', 'deposit', '1200', 'EUR'])));
+        $this->assertEquals('10.00', $calc->calc($this->createTransactionFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR'])));
+        $this->assertEquals('20.00', $calc->calc($this->createTransactionFromArray(['2014-12-31', '4', 'business', 'withdraw', '1200', 'EUR'])));
+        $this->assertEquals('30.00', $calc->calc($this->createTransactionFromArray(['2014-12-31', '4', 'private', 'deposit', '1200', 'EUR'])));
+        $this->assertEquals('40.00', $calc->calc($this->createTransactionFromArray(['2014-12-31', '4', 'business', 'deposit', '1200', 'EUR'])));
     }
 }

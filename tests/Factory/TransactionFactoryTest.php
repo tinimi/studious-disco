@@ -6,18 +6,41 @@ namespace App\Tests\Factory;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
-use App\Factory\TransactionFactoryInterface;
+use App\Factory\CurrencyFactory;
+use App\Factory\TransactionFactory;
+use App\Service\ExchangeRate\Stub;
+use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
 
 class TransactionFactoryTest extends AbstractMyTestCase
 {
     public function testCreateFromArray(): void
     {
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
+        $math = new Math();
+
+        $currencyFactory = new CurrencyFactory([
+            [
+                'name' => 'EUR',
+                'scale' => 2,
+            ],
+            [
+                'name' => 'USD',
+                'scale' => 2,
+            ],
+            [
+                'name' => 'JPY',
+                'scale' => 0,
+            ],
+        ]);
+
+        $rate = new Stub([
+            'EUR' => [
+                'USD' => '1.1497',
+                'JPY' => '129.53',
+            ],
+        ], $math);
+
+        $transactionFactory = new TransactionFactory($currencyFactory, $rate, $math);
 
         $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', '1200', 'EUR']);
 

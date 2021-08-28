@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\Commission;
 
-use App\Factory\TransactionFactoryInterface;
 use App\Service\Commission\Constant;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
@@ -33,12 +32,7 @@ class ConstantTest extends AbstractMyTestCase
     {
         $commission = new Constant(new Math(), $commission);
 
-        /**
-         * @var TransactionFactoryInterface
-         */
-        $transactionFactory = $this->container->get('TransactionFactory');
-        $this->assertNotNull($transactionFactory);
-        $transaction = $transactionFactory->createFromArray(['2014-12-31', '4', 'private', 'withdraw', $amount, 'EUR']);
+        $transaction = $this->createTransactionFromArray(['2014-12-31', '4', 'private', 'withdraw', $amount, 'EUR']);
 
         $this->assertEquals($result, $commission->calc($transaction));
     }
