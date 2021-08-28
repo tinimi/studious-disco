@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use ValueError;
+
 class Math
 {
     public function add(string $leftOperand, string $rightOperand, int $scale): string
@@ -22,9 +24,6 @@ class Math
         /*
          * This is trick for phpstan only. Generally bcdiv throws fatal error in case of division by zero
          */
-        // if (null === $result) {
-        //     $result = '0';
-        // }
         $result = $result ?? '0';
 
         return $this->round($result, $scale);
@@ -47,6 +46,17 @@ class Math
     public function comp(string $num1, string $num2, int $scale): int
     {
         return bccomp($this->round($num1, $scale), $this->round($num2, $scale), $scale);
+    }
+
+    public function isWellFormed(string $num): bool
+    {
+        try {
+            bcadd($num, '1', 2); // @phpstan-ignore-line
+
+            return true;
+        } catch (ValueError $e) {
+            return false;
+        }
     }
 
     protected function round(string $number, int $precision): string

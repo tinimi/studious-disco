@@ -6,9 +6,11 @@ namespace App\Factory;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
+use App\Exceptions\InvalidFormatException;
 use App\Service\ExchangeRate\ExchangeRateInterface;
 use App\Service\Math;
 use DateTimeImmutable;
+use Exception;
 
 class TransactionFactory implements TransactionFactoryInterface
 {
@@ -28,8 +30,20 @@ class TransactionFactory implements TransactionFactoryInterface
      */
     public function createFromArray(array $row): TransactionDTO
     {
+        if (count($row) !== 6) {
+            throw new InvalidFormatException('Must be 6 fields in a row');
+        }
+        try {
+            $date = new DateTimeImmutable($row[0]);
+        } catch (Exception $e) {
+            throw new InvalidFormatException('Invalid date format');
+        }
+        if (!$this->math->isWellFormed($row[4])) {
+            throw new InvalidFormatException('Invalid amount format');
+        }
+
         return new TransactionDTO(
-            new DateTimeImmutable($row[0]),
+            $date,
             $row[1],
             $row[2],
             $row[3],
