@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\RateException;
 use App\Service\Math;
 use DateTimeImmutable;
-use Exception;
 
 class Stub implements ExchangeRateInterface
 {
@@ -38,6 +38,6 @@ class Stub implements ExchangeRateInterface
             return $this->math->div('1', $this->rates[$to->getName()][$from->getName()], 10);
         }
 
-        throw new Exception('Can\'t get exchange ratio');
+        throw new RateException('Can\'t get exchange ratio');
     }
 }

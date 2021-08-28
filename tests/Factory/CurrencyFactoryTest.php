@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Factory;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\CurrencyNotFoundException;
 use App\Factory\CurrencyFactory;
-use Exception;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyFactoryTest extends TestCase
@@ -29,7 +29,7 @@ class CurrencyFactoryTest extends TestCase
 
     public function testGetByNameException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(CurrencyNotFoundException::class);
         $factory = new CurrencyFactory([
             [
                 'name' => 'USD',

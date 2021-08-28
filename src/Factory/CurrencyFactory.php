@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Factory;
 
 use App\DTO\CurrencyDTO;
-use Exception;
+use App\Exceptions\CurrencyNotFoundException;
 
 class CurrencyFactory implements CurrencyFactoryInterface
 {
@@ -30,7 +30,7 @@ class CurrencyFactory implements CurrencyFactoryInterface
     public function getByName(string $name): CurrencyDTO
     {
         if (!isset($this->currencies[$name])) {
-            throw new Exception('Currency not found');
+            throw new CurrencyNotFoundException('Currency not found');
         }
 
         return $this->currencies[$name];

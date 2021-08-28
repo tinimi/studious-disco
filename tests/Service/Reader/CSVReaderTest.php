@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\DTO\TransactionDTO;
+use App\Exceptions\FileNotFoundException;
 use App\Factory\TransactionFactoryInterface;
 use App\Service\Reader\CSVReader;
 use App\Tests\AbstractMyTestCase;
-use Exception;
 
 class CSVReaderTest extends AbstractMyTestCase
 {
     public function testException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(FileNotFoundException::class);
 
         /**
          * @var TransactionFactoryInterface

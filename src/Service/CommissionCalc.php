@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\DTO\TransactionDTO;
-use Exception;
+use App\Exceptions\CommissionCalcException;
 
 class CommissionCalc implements CommissionCalcInterface
 {
@@ -25,10 +25,10 @@ class CommissionCalc implements CommissionCalcInterface
     public function calc(TransactionDTO $transaction): string
     {
         if (!isset($this->commissions[$transaction->getOperationType()])) {
-            throw new Exception('Unknown operation type');
+            throw new CommissionCalcException('Unknown operation type');
         }
         if (!isset($this->commissions[$transaction->getOperationType()][$transaction->getUserType()])) {
-            throw new Exception('Unknown operation-user type');
+            throw new CommissionCalcException('Unknown operation-user type');
         }
 
         return $this->commissions[$transaction->getOperationType()][$transaction->getUserType()]->calc($transaction);

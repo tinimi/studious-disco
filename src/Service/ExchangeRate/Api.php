@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\RateException;
 use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
-use Exception;
 
 class Api implements ExchangeRateInterface
 {
@@ -36,7 +36,7 @@ class Api implements ExchangeRateInterface
                 return $this->math->div('1', $this->getRatio($date, $to, $from), 10);
             }
             if ($this->baseCurrency !== $from->getName()) {
-                throw new Exception('Invalid conversion on free plan');
+                throw new RateException('Invalid conversion on free plan');
             }
         }
 

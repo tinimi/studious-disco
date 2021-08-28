@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Exceptions\CommissionCalcException;
 use App\Factory\TransactionFactoryInterface;
 use App\Service\CommissionCalc;
 use App\Service\CommissionConstant;
 use App\Tests\AbstractMyTestCase;
-use Exception;
 
 class CommissionCalcTest extends AbstractMyTestCase
 {
     public function testNotConfigured(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(CommissionCalcException::class);
 
         $calc = new CommissionCalc([]);
 
@@ -30,7 +30,7 @@ class CommissionCalcTest extends AbstractMyTestCase
 
     public function testNotConfigured2(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(CommissionCalcException::class);
 
         $calc = new CommissionCalc([
             'withdraw' => [

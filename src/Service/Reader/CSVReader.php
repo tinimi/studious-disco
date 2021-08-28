@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Reader;
 
 use App\DTO\TransactionDTO;
+use App\Exceptions\FileNotFoundException;
 use App\Factory\TransactionFactoryInterface;
 use Generator;
 
@@ -30,7 +31,7 @@ class CSVReader implements ReaderInterface
     {
         $handle = @fopen($this->fileName, 'r');
         if (!$handle) {
-            throw new \Exception('File not found');
+            throw new FileNotFoundException('File not found');
         }
 
         while ($row = fgetcsv($handle)) {

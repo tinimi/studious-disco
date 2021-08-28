@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\RateException;
 use App\Service\ExchangeRate\Api;
 use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -44,7 +44,7 @@ class ApiTest extends TestCase
 
     public function testException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(RateException::class);
 
         $api = $this->getApi(false, 1.5);
 

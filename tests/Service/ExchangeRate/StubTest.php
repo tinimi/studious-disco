@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\RateException;
 use App\Service\ExchangeRate\Stub;
 use App\Service\Math;
 use DateTimeImmutable;
-use Exception;
 use PHPUnit\Framework\TestCase;
 
 class StubTest extends TestCase
@@ -35,7 +35,7 @@ class StubTest extends TestCase
 
     public function testException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(RateException::class);
 
         $rate = new Stub(
             [
