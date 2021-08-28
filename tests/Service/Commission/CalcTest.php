@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\Commission;
 
 use App\Exceptions\CommissionCalcException;
 use App\Factory\TransactionFactoryInterface;
-use App\Service\CommissionCalc;
-use App\Service\CommissionConstant;
+use App\Service\Commission\Calc;
+use App\Service\Commission\Constant;
 use App\Tests\AbstractMyTestCase;
 
-class CommissionCalcTest extends AbstractMyTestCase
+class CalcTest extends AbstractMyTestCase
 {
     public function testNotConfigured(): void
     {
         $this->expectException(CommissionCalcException::class);
 
-        $calc = new CommissionCalc([]);
+        $calc = new Calc([]);
 
         /**
          * @var TransactionFactoryInterface
@@ -32,7 +32,7 @@ class CommissionCalcTest extends AbstractMyTestCase
     {
         $this->expectException(CommissionCalcException::class);
 
-        $calc = new CommissionCalc([
+        $calc = new Calc([
             'withdraw' => [
             ],
         ]);
@@ -49,23 +49,23 @@ class CommissionCalcTest extends AbstractMyTestCase
 
     public function testConfigured(): void
     {
-        $withdrawPrivate = $this->createStub(CommissionConstant::class);
+        $withdrawPrivate = $this->createStub(Constant::class);
         $withdrawPrivate->method('calc')
             ->willReturn('10.00');
 
-        $withdrawBussiness = $this->createStub(CommissionConstant::class);
+        $withdrawBussiness = $this->createStub(Constant::class);
         $withdrawBussiness->method('calc')
             ->willReturn('20.00');
 
-        $depositPrivate = $this->createStub(CommissionConstant::class);
+        $depositPrivate = $this->createStub(Constant::class);
         $depositPrivate->method('calc')
             ->willReturn('30.00');
 
-        $depositBussiness = $this->createStub(CommissionConstant::class);
+        $depositBussiness = $this->createStub(Constant::class);
         $depositBussiness->method('calc')
             ->willReturn('40.00');
 
-        $calc = new CommissionCalc([
+        $calc = new Calc([
             'withdraw' => [
                 'private' => $withdrawPrivate,
                 'business' => $withdrawBussiness,

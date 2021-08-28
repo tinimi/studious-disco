@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Commission;
 
 use App\DTO\TransactionDTO;
 
-interface CommissionCalcInterface
+interface CalcInterface
 {
     public function calc(TransactionDTO $transaction): string;
 }

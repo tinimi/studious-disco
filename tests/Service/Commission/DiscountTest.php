@@ -6,13 +6,13 @@ namespace App\Tests\Service;
 
 use App\Factory\CurrencyFactoryInterface;
 use App\Factory\TransactionFactoryInterface;
-use App\Service\CommissionDiscount;
+use App\Service\Commission\Discount;
 use App\Service\ExchangeRate\ExchangeRateInterface;
 use App\Service\Math;
 use App\Service\TransactionStore;
 use App\Tests\AbstractMyTestCase;
 
-class CommissionDiscountTest extends AbstractMyTestCase
+class DiscountTest extends AbstractMyTestCase
 {
     public function testCommission(): void
     {
@@ -34,7 +34,7 @@ class CommissionDiscountTest extends AbstractMyTestCase
         $rate = $this->container->get(ExchangeRateInterface::class);
         $this->assertNotNull($rate);
 
-        $commission = new CommissionDiscount(
+        $commission = new Discount(
             new Math(),
             '0.3',
             '100',

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Factory\TransactionFactoryInterface;
-use App\Service\CommissionConstant;
+use App\Service\Commission\Constant;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
 
-class CommissionConstantTest extends AbstractMyTestCase
+class ConstantTest extends AbstractMyTestCase
 {
     /**
      * @return array<array>
@@ -31,7 +31,7 @@ class CommissionConstantTest extends AbstractMyTestCase
      */
     public function testCommission(string $commission, string $amount, string $result): void
     {
-        $commission = new CommissionConstant(new Math(), $commission);
+        $commission = new Constant(new Math(), $commission);
 
         /**
          * @var TransactionFactoryInterface

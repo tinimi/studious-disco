@@ -38,24 +38,24 @@ services:
             $rates: '%rates%'
 
     commission.deposit:
-        class: 'App\Service\CommissionConstant'
+        class: 'App\Service\Commission\Constant'
         arguments:
             $commission: '0.03'
     
     commission.withdraw.business:
-        class: 'App\Service\CommissionConstant'
+        class: 'App\Service\Commission\Constant'
         arguments:
             $commission: '0.5'
     
     commission.withdraw.private:
-        class: 'App\Service\CommissionDiscount'
+        class: 'App\Service\Commission\Discount'
         arguments:
             $commission: '0.3'
             $discountAmount: '1000'
             $discountCurrency: 'EUR'
             $discountCount: 3
 
-    App\Service\CommissionCalc:
+    App\Service\Commission\Calc:
         arguments:
             $commissions:
                 deposit:

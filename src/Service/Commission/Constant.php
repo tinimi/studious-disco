@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Commission;
 
 use App\DTO\TransactionDTO;
+use App\Service\Math;
 
-class CommissionConstant extends AbstractCommission
+class Constant extends AbstractCommission
 {
     protected string $commission;
 

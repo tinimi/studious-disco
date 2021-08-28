@@ -6,7 +6,7 @@ namespace App;
 
 use App\DTO\OrderDTO;
 use App\Exceptions\AppException;
-use App\Service\CommissionCalcInterface;
+use App\Service\Commission\CalcInterface;
 use App\Service\Reader\ReaderInterface;
 use App\Service\Writer\WriterInterface;
 use Psr\Log\LoggerInterface;
@@ -15,11 +15,11 @@ class Runner
 {
     protected ReaderInterface $reader;
     protected WriterInterface $writer;
-    protected CommissionCalcInterface $commissionCalc;
+    protected CalcInterface $commissionCalc;
     protected bool $sort;
     protected LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger, ReaderInterface $reader, WriterInterface $writer, CommissionCalcInterface $commissionCalc, bool $sort)
+    public function __construct(LoggerInterface $logger, ReaderInterface $reader, WriterInterface $writer, CalcInterface $commissionCalc, bool $sort)
     {
         $this->reader = $reader;
         $this->writer = $writer;

@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Commission;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 use App\Factory\CurrencyFactoryInterface;
 use App\Factory\TransactionFactoryInterface;
 use App\Service\ExchangeRate\ExchangeRateInterface;
+use App\Service\Math;
+use App\Service\TransactionStoreInterface;
 
-class CommissionDiscount extends AbstractCommission
+class Discount extends AbstractCommission
 {
     protected string $commission;
     protected string $discountAmount;

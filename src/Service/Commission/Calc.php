@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Commission;
 
 use App\DTO\TransactionDTO;
 use App\Exceptions\CommissionCalcException;
 
-class CommissionCalc implements CommissionCalcInterface
+class Calc implements CalcInterface
 {
     /**
      * @var array<array>
