@@ -31,7 +31,7 @@ class ExchangeRateApiTest extends TestCase
         $stub->method('fetch')
             ->willReturn($response);
 
-        return new ExchangeRateApi($stub, $isPaid, new Math());
+        return new ExchangeRateApi($stub, $isPaid, new Math(), 'EUR');
     }
 
     public function testSame(): void

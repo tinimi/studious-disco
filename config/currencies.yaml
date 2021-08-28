@@ -1,5 +1,4 @@
 parameters:
-  sort: true
   currencies:
     -
       name: USD

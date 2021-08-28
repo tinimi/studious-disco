@@ -13,9 +13,13 @@ class CSVReader implements ReaderInterface
     protected TransactionFactoryInterface $factory;
     protected string $fileName;
 
-    public function __construct(TransactionFactoryInterface $factory, string $fileName)
+    public function __construct(TransactionFactoryInterface $factory)
     {
         $this->factory = $factory;
+    }
+
+    public function setFileName(string $fileName): void
+    {
         $this->fileName = $fileName;
     }
 

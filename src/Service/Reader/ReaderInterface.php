@@ -13,4 +13,6 @@ interface ReaderInterface
      * @return Generator<TransactionDTO>
      */
     public function getTransaction(): Generator;
+
+    public function setFileName(string $fileName): void;
 }

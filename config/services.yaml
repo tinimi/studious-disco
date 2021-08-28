@@ -2,10 +2,16 @@ imports:
     - { resource: currencies.yaml }
     - { resource: env.yaml }
 parameters:
-  rates:
-    EUR:
-      USD: '1.1497'
-      JPY: '129.53'
+    default.sort: true
+    default.logFile: logs/log
+    default.logLevelFile: 'info'
+    default.logLevelEcho: 'error'
+    default.apiPaid: false
+    default.apiBase: 'EUR'
+    rates:
+        EUR:
+            USD: '1.1497'
+            JPY: '129.53'
 # config/services.yaml
 services:
     # default configuration for services in *this* file
@@ -21,9 +27,8 @@ services:
     
     App\Runner:
         public: true
-        tags: ["app.runner"]
         arguments:
-            $sort: '%sort%'
+            $sort: '%env(bool:default:default.sort:APP_SORT)%'
 
     App\Factory\CurrencyFactory:
         arguments: ['%currencies%']
@@ -62,16 +67,25 @@ services:
 
     BenMajor\ExchangeRatesAPI\ExchangeRatesAPI:
         arguments:
-            $access_key: '%exchangeratesapi.io.key%'
-            $use_ssl: '%exchangeratesapi.io.isPaid%'
+            $access_key: '%env(APP_API_KEY)%'
+            $use_ssl: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
 
     App\Service\ExchangeRateApi:
         arguments:
-            $isPaid: '%exchangeratesapi.io.isPaid%'
-    App\Service\Reader\CSVReader:
-        arguments:
-            $fileName: '%filename%'
+            $isPaid: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
+            $baseCurrency: '%env(default:default.apiBase:APP_API_BASE)%'
 
     App\Service\ExchangeRateInterface:
-        #alias: App\Service\ExchangeRateStub
-        alias: App\Service\ExchangeRateApi
+        alias: App\Service\ExchangeRateStub
+        #alias: App\Service\ExchangeRateApi
+
+    Psr\Log\LoggerInterface:
+        class: Monolog\Logger
+        arguments: ['app', ['@monolog.file', '@monolog.echo']]
+        public: true
+    monolog.file:
+        class: Monolog\Handler\StreamHandler
+        arguments: ['%env(default:default.logFile:APP_LOG_FILENAME)%', '%env(default:default.logLevelFile:APP_LOG_LEVEL_FILE)%']
+    monolog.echo:
+        class: Monolog\Handler\StreamHandler
+        arguments: ['php://stderr', '%env(default:default.logLevelEcho:APP_LOG_LEVEL_ECHO)%']

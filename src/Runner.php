@@ -8,6 +8,7 @@ use App\DTO\OrderDTO;
 use App\Service\CommissionCalcInterface;
 use App\Service\Reader\ReaderInterface;
 use App\Service\Writer\WriterInterface;
+use Psr\Log\LoggerInterface;
 
 class Runner
 {
@@ -15,33 +16,54 @@ class Runner
     protected WriterInterface $writer;
     protected CommissionCalcInterface $commissionCalc;
     protected bool $sort;
+    protected LoggerInterface $logger;
 
-    public function __construct(ReaderInterface $reader, WriterInterface $writer, CommissionCalcInterface $commissionCalc, bool $sort)
+    public function __construct(LoggerInterface $logger, ReaderInterface $reader, WriterInterface $writer, CommissionCalcInterface $commissionCalc, bool $sort)
     {
         $this->reader = $reader;
         $this->writer = $writer;
         $this->commissionCalc = $commissionCalc;
         $this->sort = $sort;
+        $this->logger = $logger;
     }
 
-    public function run(): void
+    /**
+     * @param array<string> $argv
+     */
+    public function main(int $argc, array $argv): int
     {
+        if ($argc !== 2) {
+            $this->logger->error("Usage: {$argv[0]} filename.csv\n");
+
+            return 1;
+        }
+
+        $this->run($argv[1]);
+
+        return 0;
+    }
+
+    public function run(string $fileName): void
+    {
+        $this->logger->notice('Run', [$this->sort]);
         if ($this->sort) {
-            $this->runWithSort();
+            $this->runWithSort($fileName);
         } else {
-            $this->runWithoutSort();
+            $this->runWithoutSort($fileName);
         }
     }
 
-    public function runWithoutSort(): void
+    public function runWithoutSort(string $fileName): void
     {
+        $this->reader->setFileName($fileName);
         foreach ($this->reader->getTransaction() as $t) {
             $this->writer->write($this->commissionCalc->calc($t));
         }
     }
 
-    public function runWithSort(): void
+    public function runWithSort(string $fileName): void
     {
+        $this->reader->setFileName($fileName);
         $data = [];
         $i = 0;
         foreach ($this->reader->getTransaction() as $t) {

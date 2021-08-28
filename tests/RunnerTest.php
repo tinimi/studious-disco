@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Runner;
+use Psr\Log\LoggerInterface;
 
 class RunnerTest extends AbstractMyTestCase
 {
@@ -50,7 +51,7 @@ class RunnerTest extends AbstractMyTestCase
          */
         $runner = $this->container->get(Runner::class);
         $this->assertNotNull($runner);
-        $runner->runWithoutSort();
+        $runner->runWithoutSort($this->fileName);
     }
 
     public function testRunnerWithSort(): void
@@ -93,11 +94,13 @@ class RunnerTest extends AbstractMyTestCase
          */
         $runner = $this->container->get(Runner::class);
         $this->assertNotNull($runner);
-        $runner->runWithSort();
+        $runner->runWithSort($this->fileName);
     }
 
     public function testRun1(): void
     {
+        $loggerMock = $this->createStub(LoggerInterface::class);
+
         $stub = $this->getMockBuilder(Runner::class)
             ->disableOriginalConstructor()
             ->disableOriginalClone()
@@ -111,9 +114,11 @@ class RunnerTest extends AbstractMyTestCase
         $stub->expects($this->exactly(0))
             ->method('runWithoutSort');
 
-        $propertyClosure = function () {
+        $fileName = $this->fileName;
+        $propertyClosure = function () use ($fileName, $loggerMock) {
+            $this->logger = $loggerMock; // @phpstan-ignore-line
             $this->sort = true; // @phpstan-ignore-line
-            $this->run();
+            $this->run($fileName); // @phpstan-ignore-line
         };
 
         $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));
@@ -122,6 +127,8 @@ class RunnerTest extends AbstractMyTestCase
 
     public function testRun2(): void
     {
+        $loggerMock = $this->createStub(LoggerInterface::class);
+
         $stub = $this->getMockBuilder(Runner::class)
             ->disableOriginalConstructor()
             ->disableOriginalClone()
@@ -135,9 +142,11 @@ class RunnerTest extends AbstractMyTestCase
         $stub->expects($this->exactly(0))
             ->method('runWithSort');
 
-        $propertyClosure = function () {
+        $fileName = $this->fileName;
+        $propertyClosure = function () use ($fileName, $loggerMock) {
+            $this->logger = $loggerMock; // @phpstan-ignore-line
             $this->sort = false; // @phpstan-ignore-line
-            $this->run();
+            $this->run($fileName); // @phpstan-ignore-line
         };
 
         $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));

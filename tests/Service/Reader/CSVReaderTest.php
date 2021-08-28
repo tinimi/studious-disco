@@ -21,7 +21,8 @@ class CSVReaderTest extends AbstractMyTestCase
          */
         $transactionFactory = $this->container->get('TransactionFactory');
         $this->assertNotNull($transactionFactory);
-        $reader = new CSVReader($transactionFactory, 'qwe');
+        $reader = new CSVReader($transactionFactory);
+        $reader->setFileName('/tmp/qwe');
         foreach ($reader->getTransaction() as $t) {
         }
     }
@@ -35,7 +36,8 @@ class CSVReaderTest extends AbstractMyTestCase
          */
         $transactionFactory = $this->container->get('TransactionFactory');
         $this->assertNotNull($transactionFactory);
-        $reader = new CSVReader($transactionFactory, '/tmp/qwe');
+        $reader = new CSVReader($transactionFactory);
+        $reader->setFileName('/tmp/qwe');
         foreach ($reader->getTransaction() as $transaction) {
             $this->assertInstanceOf(TransactionDTO::class, $transaction);
         }

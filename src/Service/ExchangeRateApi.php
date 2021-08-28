@@ -14,12 +14,14 @@ class ExchangeRateApi implements ExchangeRateInterface
     protected ExchangeRatesAPI $api;
     protected bool $isPaid;
     protected Math $math;
+    protected string $baseCurrency;
 
-    public function __construct(ExchangeRatesAPI $api, bool $isPaid, Math $math)
+    public function __construct(ExchangeRatesAPI $api, bool $isPaid, Math $math, string $baseCurrency)
     {
         $this->api = $api;
         $this->isPaid = $isPaid;
         $this->math = $math;
+        $this->baseCurrency = $baseCurrency;
     }
 
     public function getRatio(DateTimeImmutable $date, CurrencyDTO $from, CurrencyDTO $to): string
@@ -29,10 +31,10 @@ class ExchangeRateApi implements ExchangeRateInterface
         }
 
         if (!$this->isPaid) {
-            if (('EUR' !== $from->getName()) && ('EUR' === $to->getName())) {
+            if (($this->baseCurrency !== $from->getName()) && ($this->baseCurrency === $to->getName())) {
                 return $this->math->div('1', $this->getRatio($date, $to, $from), 10);
             }
-            if ('EUR' !== $from->getName()) {
+            if ($this->baseCurrency !== $from->getName()) {
                 throw new Exception('Invalid conversion on free plan');
             }
         }

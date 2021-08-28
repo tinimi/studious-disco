@@ -33,3 +33,15 @@ You could use stub instead of real api. This will save api usage. Change followi
 Run `./php.sh composer test`
 
 or `./php.sh bin/phpunit --coverage-text`.
+
+## ENV variables
+| Variable               | Default  | Description
+|------------------------|----------|-
+| **APP_API_KEY**        |          | Api key. **required**
+| **APP_API_PAID**       | false    | Api plan. Free plan has limits on ssl and base currency
+| **APP_API_BASE**       | EUR      | Base currency for free plan
+| **APP_SORT**           | true     | Sort input or not. Disabling improves perfomance
+| **APP_LOG_FILENAME**   | logs/log | File for logging
+| **APP_LOG_LEVEL_FILE** | info     | Default log level for file logging. See [PSR-3](https://www.php-fig.org/psr/psr-3/).
+| **APP_LOG_LEVEL_ECHO** | error    | Default log level for echo logging. See [PSR-3](https://www.php-fig.org/psr/psr-3/).
+
