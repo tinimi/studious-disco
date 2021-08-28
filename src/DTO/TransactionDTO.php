@@ -10,16 +10,16 @@ class TransactionDTO
 {
     protected DateTimeImmutable $date;
     protected string $uid;
-    protected UserTypeDTO $userType;
-    protected OperationTypeDTO $operationType;
+    protected string $userType;
+    protected string $operationType;
     protected string $amount;
     protected CurrencyDTO $currency;
 
     public function __construct(
         DateTimeImmutable $date,
         string $uid,
-        UserTypeDTO $userType,
-        OperationTypeDTO $operationType,
+        string $userType,
+        string $operationType,
         string $amount,
         CurrencyDTO $currency
     ) {
@@ -41,12 +41,12 @@ class TransactionDTO
         return $this->uid;
     }
 
-    public function getUserType(): UserTypeDTO
+    public function getUserType(): string
     {
         return $this->userType;
     }
 
-    public function getOperationType(): OperationTypeDTO
+    public function getOperationType(): string
     {
         return $this->operationType;
     }

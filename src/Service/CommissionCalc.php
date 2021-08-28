@@ -24,13 +24,13 @@ class CommissionCalc implements CommissionCalcInterface
 
     public function calc(TransactionDTO $transaction): string
     {
-        if (!isset($this->commissions[$transaction->getOperationType()->getName()])) {
+        if (!isset($this->commissions[$transaction->getOperationType()])) {
             throw new Exception('Unknown operation type');
         }
-        if (!isset($this->commissions[$transaction->getOperationType()->getName()][$transaction->getUserType()->getName()])) {
+        if (!isset($this->commissions[$transaction->getOperationType()][$transaction->getUserType()])) {
             throw new Exception('Unknown operation-user type');
         }
 
-        return $this->commissions[$transaction->getOperationType()->getName()][$transaction->getUserType()->getName()]->calc($transaction);
+        return $this->commissions[$transaction->getOperationType()][$transaction->getUserType()]->calc($transaction);
     }
 }

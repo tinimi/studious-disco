@@ -13,16 +13,12 @@ use DateTimeImmutable;
 class TransactionFactory implements TransactionFactoryInterface
 {
     protected CurrencyFactoryInterface $currencyFactory;
-    protected UserTypeFactoryInterface $userTypeFactory;
-    protected OperationTypeFactoryInterface $operationTypeFactory;
     protected ExchangeRateInterface $rate;
     protected Math $math;
 
-    public function __construct(CurrencyFactoryInterface $currencyFactory, UserTypeFactoryInterface $userTypeFactory, OperationTypeFactoryInterface $operationTypeFactory, ExchangeRateInterface $rate, Math $math)
+    public function __construct(CurrencyFactoryInterface $currencyFactory, ExchangeRateInterface $rate, Math $math)
     {
         $this->currencyFactory = $currencyFactory;
-        $this->userTypeFactory = $userTypeFactory;
-        $this->operationTypeFactory = $operationTypeFactory;
         $this->rate = $rate;
         $this->math = $math;
     }
@@ -35,8 +31,8 @@ class TransactionFactory implements TransactionFactoryInterface
         return new TransactionDTO(
             new DateTimeImmutable($row[0]),
             $row[1],
-            $this->userTypeFactory->getByName($row[2]),
-            $this->operationTypeFactory->getByName($row[3]),
+            $row[2],
+            $row[3],
             $row[4],
             $this->currencyFactory->getByName($row[5])
         );
