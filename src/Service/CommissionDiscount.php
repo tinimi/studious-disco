@@ -8,6 +8,7 @@ use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
 use App\Factory\CurrencyFactoryInterface;
 use App\Factory\TransactionFactoryInterface;
+use App\Service\ExchangeRate\ExchangeRateInterface;
 
 class CommissionDiscount extends AbstractCommission
 {

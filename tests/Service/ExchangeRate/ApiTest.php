@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
-use App\Service\ExchangeRateApi;
+use App\Service\ExchangeRate\Api;
 use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
@@ -13,9 +13,9 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ExchangeRateApiTest extends TestCase
+class ApiTest extends TestCase
 {
-    public function getApi(bool $isPaid, float $response): ExchangeRateApi
+    public function getApi(bool $isPaid, float $response): Api
     {
         $response = new stdClass();
         $response->rates = new stdClass();
@@ -31,7 +31,7 @@ class ExchangeRateApiTest extends TestCase
         $stub->method('fetch')
             ->willReturn($response);
 
-        return new ExchangeRateApi($stub, $isPaid, new Math(), 'EUR');
+        return new Api($stub, $isPaid, new Math(), 'EUR');
     }
 
     public function testSame(): void

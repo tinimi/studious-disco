@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
-use App\Service\ExchangeRateStub;
+use App\Service\ExchangeRate\Stub;
 use App\Service\Math;
 use DateTimeImmutable;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-class ExchangeRateStubTest extends TestCase
+class StubTest extends TestCase
 {
     public function testGetByName(): void
     {
-        $rate = new ExchangeRateStub(
+        $rate = new Stub(
             [
                 'EUR' => [
                     'USD' => '1.1497',
@@ -37,7 +37,7 @@ class ExchangeRateStubTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $rate = new ExchangeRateStub(
+        $rate = new Stub(
             [
                 'EUR' => [
                     'USD' => '1.1497',

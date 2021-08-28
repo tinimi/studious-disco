@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
 use Exception;
 
-class ExchangeRateApi implements ExchangeRateInterface
+class Api implements ExchangeRateInterface
 {
     protected ExchangeRatesAPI $api;
     protected bool $isPaid;

@@ -33,7 +33,7 @@ services:
     App\Factory\CurrencyFactory:
         arguments: ['%currencies%']
    
-    App\Service\ExchangeRateStub:
+    App\Service\ExchangeRate\Stub:
         arguments: 
             $rates: '%rates%'
 
@@ -70,14 +70,21 @@ services:
             $access_key: '%env(APP_API_KEY)%'
             $use_ssl: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
 
-    App\Service\ExchangeRateApi:
+    App\Service\ExchangeRate\Api:
         arguments:
             $isPaid: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
             $baseCurrency: '%env(default:default.apiBase:APP_API_BASE)%'
 
-    App\Service\ExchangeRateInterface:
-        alias: App\Service\ExchangeRateStub
-        #alias: App\Service\ExchangeRateApi
+    App\Service\ExchangeRate\ExchangeRateInterface:
+        alias: App\Service\ExchangeRate\CacheMemory
+
+    rate:
+        alias: App\Service\ExchangeRate\Stub
+        #alias: App\Service\ExchangeRate\Api
+    
+    App\Service\ExchangeRate\CacheMemory:
+        arguments:
+            $rate: '@rate'
 
     Psr\Log\LoggerInterface:
         class: Monolog\Logger

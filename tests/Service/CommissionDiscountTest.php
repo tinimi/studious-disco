@@ -7,7 +7,7 @@ namespace App\Tests\Service;
 use App\Factory\CurrencyFactoryInterface;
 use App\Factory\TransactionFactoryInterface;
 use App\Service\CommissionDiscount;
-use App\Service\ExchangeRateInterface;
+use App\Service\ExchangeRate\ExchangeRateInterface;
 use App\Service\Math;
 use App\Service\TransactionStore;
 use App\Tests\AbstractMyTestCase;

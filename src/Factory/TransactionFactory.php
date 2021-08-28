@@ -6,7 +6,7 @@ namespace App\Factory;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
-use App\Service\ExchangeRateInterface;
+use App\Service\ExchangeRate\ExchangeRateInterface;
 use App\Service\Math;
 use DateTimeImmutable;
 

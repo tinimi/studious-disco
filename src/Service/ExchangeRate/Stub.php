@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Service\Math;
 use DateTimeImmutable;
 use Exception;
 
-class ExchangeRateStub implements ExchangeRateInterface
+class Stub implements ExchangeRateInterface
 {
     /**
      * @var array<array>
