@@ -1,3 +1,18 @@
+parameters:
+    rates:
+        EUR:
+            USD: '1.1497'
+            JPY: '129.53'
+    currencies:
+        -
+            name: USD
+            scale: 2
+        -
+            name: EUR
+            scale: 2
+        -
+            name: JPY
+            scale: 0
 services:
     TransactionRepository:
         alias: App\Repository\TransactionRepository

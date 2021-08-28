@@ -11,20 +11,25 @@ parameters:
     default.commissionWithdrawPrivateCurrency: 'EUR'
     default.commissionWithdrawPrivateAmount: '1000'
     default.commissionWithdrawPrivateCount: 3
+    default.rate.EUR.USD: '1.1497'
+    default.rate.EUR.JPY: '129.53'
+    default.scale.USD: '2'
+    default.scale.EUR: '2'
+    default.scale.JPY: '0'
     rates:
         EUR:
-            USD: '1.1497'
-            JPY: '129.53'
+            USD: '%env(default:default.rate.EUR.USD:APP_RATE_EUR_USD)%'
+            JPY: '%env(default:default.rate.EUR.JPY:APP_RATE_EUR_JPY)%'
     currencies:
         -
             name: USD
-            scale: 2
+            scale: '%env(int:default:default.scale.USD:APP_SCALE_USD)%'
         -
             name: EUR
-            scale: 2
+            scale: '%env(int:default:default.scale.EUR:APP_SCALE_EUR)%'
         -
             name: JPY
-            scale: 0
+            scale: '%env(int:default:default.scale.JPY:APP_SCALE_JPY)%'
 # config/services.yaml
 services:
     # default configuration for services in *this* file
