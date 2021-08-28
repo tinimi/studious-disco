@@ -16,6 +16,7 @@ parameters:
     default.scale.USD: '2'
     default.scale.EUR: '2'
     default.scale.JPY: '0'
+    default.rate.module: 'api'
     rates:
         EUR:
             USD: '%env(default:default.rate.EUR.USD:APP_RATE_EUR_USD)%'
@@ -51,10 +52,6 @@ services:
     App\Repository\CurrencyRepository:
         arguments: ['%currencies%']
    
-    App\Service\ExchangeRate\Stub:
-        arguments: 
-            $rates: '%rates%'
-
     commission.deposit:
         class: 'App\Service\Commission\Constant'
         arguments:
@@ -88,6 +85,10 @@ services:
             $access_key: '%env(APP_API_KEY)%'
             $use_ssl: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
 
+    App\Service\ExchangeRate\Stub:
+        arguments: 
+            $rates: '%rates%'
+
     App\Service\ExchangeRate\Api:
         arguments:
             $isPaid: '%env(bool:default:default.apiPaid:APP_API_PAID)%'
@@ -96,13 +97,16 @@ services:
     App\Service\ExchangeRate\ExchangeRateInterface:
         alias: App\Service\ExchangeRate\CacheMemory
 
-    rate:
-        alias: App\Service\ExchangeRate\Stub
-        #alias: App\Service\ExchangeRate\Api
-    
+    App\Service\ExchangeRate\Selector:
+        arguments:
+            $selectedRateName: '%env(default:default.rate.module:APP_RATE_MODULE)%'
+            $rates:
+                stub: '@App\Service\ExchangeRate\Stub'
+                api: '@App\Service\ExchangeRate\Api'
+
     App\Service\ExchangeRate\CacheMemory:
         arguments:
-            $rate: '@rate'
+            $rate: '@App\Service\ExchangeRate\Selector'
 
     Psr\Log\LoggerInterface:
         class: Monolog\Logger

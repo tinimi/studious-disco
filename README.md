@@ -49,6 +49,7 @@ or `./php.sh bin/phpunit --coverage-text`.
 | **APP_COMMISSION_WITHDRAW_PRIVATE_AMOUNT**   | 1000     | Withdrawal for private clients discount amount
 | **APP_COMMISSION_WITHDRAW_PRIVATE_CURRENCY** | EUR      | Withdrawal for private clients discount amount currency
 | **APP_COMMISSION_WITHDRAW_PRIVATE_COUNT**    | 3        | Withdrawal for private clients discount transactions count
+| **APP_RATE_MODULE**                          | api      | Used exchange rate module (api|stub)
 | **APP_RATE_EUR_USD**                         | 1.1497   | EUR->USD exchange rate (For stub only)
 | **APP_RATE_EUR_JPY**                         | 129.53   | EUR->JPY exchange rate (for stub only)
 | **APP_SCALE_USD**                            | 2        | Scale for USD
