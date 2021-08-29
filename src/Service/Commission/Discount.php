@@ -6,6 +6,8 @@ namespace App\Service\Commission;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
+use App\Exceptions\InvalidCommissionException;
+use App\Exceptions\InvalidDiscountException;
 use App\Repository\CurrencyRepositoryInterface;
 use App\Repository\TransactionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateInterface;
@@ -26,7 +28,19 @@ class Discount extends AbstractCommission
     public function __construct(Math $math, string $commission, string $discountAmount, string $discountCurrency, int $discountCount,
         TransactionStoreInterface $store, CurrencyRepositoryInterface $currencyRepository, TransactionRepositoryInterface $transactionRepository, ExchangeRateInterface $rate)
     {
+        if (!$math->isWellFormed($commission)) {
+            throw new InvalidCommissionException('Invalid commission: '.$commission);
+        }
+        if (!$math->isWellFormed($discountAmount)) {
+            throw new InvalidDiscountException('Invalid discount ammount: '.$discountAmount);
+        }
+
+        if ($discountCount < 0) {
+            throw new InvalidDiscountException('Invalid discount count: '.$discountCount);
+        }
+
         parent::__construct($math);
+
         $this->commission = $commission;
         $this->discountAmount = $discountAmount;
         $this->discountCount = $discountCount;
