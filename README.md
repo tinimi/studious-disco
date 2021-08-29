@@ -13,26 +13,10 @@ Copy and fill environment config. Specify API key for accessing exchangeratesapi
 ```
 cp .env.dist .env
 ```
-You could configure currencies in `config/currencies.yaml`
-
-You could use stub instead of real api. This will save api usage. Change following lines in `config/services.yaml`:
-```diff
-     rate:
--        alias: App\Service\ExchangeRateApi
-+        alias: App\Service\ExchangeRateStub
+You could use stub instead of real api. This will save api usage. Use following env variable:
 ```
-## Build
-1. `./build.sh` to build docker image.
-2. `./php.sh composer install` to install all dependencies.
-## Execute
+APP_RATE_MODULE=stub
 ```
-./php.sh php run.php data/test.csv
-```
-## Tests
-Run `./php.sh composer test`
-
-or `./php.sh bin/phpunit --coverage-text`.
-
 ## ENV variables
 | Variable                                     | Default  | Description
 |----------------------------------------------|----------|-
@@ -55,3 +39,25 @@ or `./php.sh bin/phpunit --coverage-text`.
 | **APP_SCALE_USD**                            | 2        | Scale for USD
 | **APP_SCALE_EUR**                            | 2        | Scale for EUR
 | **APP_SCALE_JPY**                            | 0        | Scale for JPY
+
+
+## Build
+1. `./build.sh` to build docker image.
+2. `./php.sh composer install` to install all dependencies.
+## Execute
+```
+./php.sh php run.php data/test.csv
+```
+## Tests
+Run `./php.sh composer test`
+
+or `./php.sh bin/phpunit --coverage-text`.
+```  
+Code Coverage Report:       
+  2021-08-29 12:53:59       
+                          
+ Summary:                   
+  Classes: 100.00% (18/18)  
+  Methods: 100.00% (57/57)  
+  Lines:   100.00% (260/260)
+```

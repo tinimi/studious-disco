@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Exceptions\FileNotFoundException;
 use App\Runner;
 use org\bovigo\vfs\vfsStream;
 use Psr\Log\LoggerInterface;
@@ -121,11 +122,10 @@ class RunnerTest extends AbstractMyTestCase
         $stub->expects($this->exactly(0))
             ->method('runWithoutSort');
 
-        $fileName = $this->fileName;
-        $propertyClosure = function () use ($fileName, $loggerMock) {
+        $propertyClosure = function () use ($loggerMock) {
             $this->logger = $loggerMock; // @phpstan-ignore-line
             $this->sort = true; // @phpstan-ignore-line
-            $this->run($fileName); // @phpstan-ignore-line
+            $this->run('qwe'); // @phpstan-ignore-line
         };
 
         $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));
@@ -149,13 +149,85 @@ class RunnerTest extends AbstractMyTestCase
         $stub->expects($this->exactly(0))
             ->method('runWithSort');
 
-        $fileName = $this->fileName;
-        $propertyClosure = function () use ($fileName, $loggerMock) {
+        $propertyClosure = function () use ($loggerMock) {
             $this->logger = $loggerMock; // @phpstan-ignore-line
             $this->sort = false; // @phpstan-ignore-line
-            $this->run($fileName); // @phpstan-ignore-line
+            $this->run('qwe'); // @phpstan-ignore-line
         };
 
+        $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));
+        $doPropertyClosure();
+    }
+
+    public function testMainCallRun(): void
+    {
+        $stub = $this->getMockBuilder(Runner::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->onlyMethods(['run'])
+            ->getMock();
+
+        $stub->expects($this->once())
+            ->method('run')
+            ->with('filename.csv')
+            ->willReturn(0);
+
+        $this->assertEquals(0, $stub->main(2, ['qwe', 'filename.csv']));
+    }
+
+    public function testMainCallLogger(): void
+    {
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->once())
+            ->method('error');
+
+        $stub = $this->getMockBuilder(Runner::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->onlyMethods(['run'])
+            ->getMock();
+
+        $stub->expects($this->exactly(0))
+            ->method('run');
+
+        $that = $this;
+        $propertyClosure = function () use ($that, $loggerMock) {
+            $this->logger = $loggerMock; // @phpstan-ignore-line
+            $this->sort = false; // @phpstan-ignore-line
+            $that->assertEquals(1, $this->main(1, ['qwe'])); // @phpstan-ignore-line
+        };
+        $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));
+        $doPropertyClosure();
+    }
+
+    public function testRunException(): void
+    {
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->once())
+            ->method('error');
+
+        $stub = $this->getMockBuilder(Runner::class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->onlyMethods(['runWithSort', 'runWithoutSort'])
+            ->getMock();
+
+        $stub->expects($this->once())
+            ->method('runWithSort')
+            ->willThrowException(new FileNotFoundException());
+
+        $that = $this;
+        $propertyClosure = function () use ($that, $loggerMock) {
+            $this->logger = $loggerMock; // @phpstan-ignore-line
+            $this->sort = true; // @phpstan-ignore-line
+            $that->assertEquals(1, $this->run('qwe')); // @phpstan-ignore-line
+        };
         $doPropertyClosure = $propertyClosure->bindTo($stub, get_class($stub));
         $doPropertyClosure();
     }
