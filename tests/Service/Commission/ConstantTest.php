@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Commission;
 
+use App\Exceptions\InvalidCommissionException;
 use App\Service\Commission\Constant;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
@@ -35,5 +36,11 @@ class ConstantTest extends AbstractMyTestCase
         $transaction = $this->createTransactionFromArray(['2014-12-31', '4', 'private', 'withdraw', $amount, 'EUR']);
 
         $this->assertEquals($result, $commission->calc($transaction));
+    }
+
+    public function testException(): void
+    {
+        $this->expectException(InvalidCommissionException::class);
+        $commission = new Constant(new Math(), 'qw');
     }
 }
