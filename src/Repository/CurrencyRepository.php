@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\DTO\CurrencyDTO;
 use App\Exceptions\CurrencyNotFoundException;
+use App\Exceptions\InvalidCurrencyFormatException;
 
 class CurrencyRepository implements CurrencyRepositoryInterface
 {
@@ -20,6 +21,18 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     public function __construct(array $currencies)
     {
         foreach ($currencies as $currency) {
+            if (!isset($currency['name'])) {
+                throw new InvalidCurrencyFormatException('Currency name not found');
+            }
+            if (!isset($currency['scale'])) {
+                throw new InvalidCurrencyFormatException('Currency scale not found');
+            }
+            if (!preg_match('/^[a-zA-Z]+$/', $currency['name'])) {
+                throw new InvalidCurrencyFormatException('Invalid currency name: '.$currency['name']);
+            }
+            if ($currency['scale'] < 0) {
+                throw new InvalidCurrencyFormatException(sprintf('Invalid currency (%s) scale: %s', $currency['name'], $currency['scale']));
+            }
             $name = $currency['name'];
             $scale = $currency['scale'];
 
