@@ -45,7 +45,7 @@ class CalcTest extends AbstractMyTestCase
             $date = new DateTimeImmutable('2020-01-02'),
             '123',
             'private',
-            'deposit',
+            'withdraw',
             '1200',
             $currency = new CurrencyDTO('EUR', 2)
         );
