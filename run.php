@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Monolog\ErrorHandler;
 use Psr\Log\LoggerInterface;
 use App\Runner;
-use App\Exceptions\RateSelectorException;
+use App\Exceptions\AppException;
 
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/.env');
@@ -19,19 +19,15 @@ $dotenv->load(__DIR__.'/.env');
 $containerBuilder = new ContainerBuilder();
 $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__));
 $loader->load('config/services.yaml');
-//var_dump($containerBuilder->resolveEnvPlaceholders(true));
-try {
-    $containerBuilder->compile(true);
-} catch (RateSelectorException $e) {
-    echo $e->getMessage();die();
-}
+
+$containerBuilder->compile(true);
 
 $logger = $containerBuilder->get(LoggerInterface::class);
 
 ErrorHandler::register($logger);
 try {
     exit($containerBuilder->get(Runner::class)->main($argc, $argv));
-} catch (RateSelectorException $e) {
+} catch (AppException $e) {
     $logger->error($e->getMessage());
     exit(1);
 }

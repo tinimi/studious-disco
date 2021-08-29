@@ -30,7 +30,7 @@ class CurrencyRepository implements CurrencyRepositoryInterface
     public function getByName(string $name): CurrencyDTO
     {
         if (!isset($this->currencies[$name])) {
-            throw new CurrencyNotFoundException('Currency not found');
+            throw new CurrencyNotFoundException('Currency not found: '.$name);
         }
 
         return $this->currencies[$name];

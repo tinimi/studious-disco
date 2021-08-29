@@ -50,6 +50,9 @@ class Math
 
     public function isWellFormed(string $num): bool
     {
+        if ('' === $num) {
+            return false;
+        }
         try {
             bcadd($num, '1', 2); // @phpstan-ignore-line
 
@@ -57,6 +60,11 @@ class Math
         } catch (ValueError $e) {
             return false;
         }
+    }
+
+    public function isZero(string $num): bool
+    {
+        return 1 === preg_match('/^0+\.?0*$/', $num);
     }
 
     protected function round(string $number, int $precision): string

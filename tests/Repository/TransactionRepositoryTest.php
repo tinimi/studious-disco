@@ -38,7 +38,7 @@ class TransactionRepositoryTest extends AbstractMyTestCase
                 'USD' => '1.1497',
                 'JPY' => '129.53',
             ],
-        ], $math);
+        ], $math, $currencyRepository);
 
         $transactionRepository = new TransactionRepository($currencyRepository, $rate, $math);
 

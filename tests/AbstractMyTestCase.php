@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\DTO\CurrencyDTO;
 use App\DTO\TransactionDTO;
+use App\Repository\CurrencyRepository;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
@@ -44,5 +45,14 @@ abstract class AbstractMyTestCase extends TestCase
             $row[4],
             $currency = new CurrencyDTO($row[5], 'JPY' === $row[5] ? 0 : 2)
         );
+    }
+
+    protected function getCurrencyRepository(): CurrencyRepository
+    {
+        return new CurrencyRepository([
+            ['name' => 'EUR', 'scale' => 2],
+            ['name' => 'USD', 'scale' => 2],
+            ['name' => 'JPY', 'scale' => 0],
+        ]);
     }
 }

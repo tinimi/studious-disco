@@ -188,4 +188,62 @@ class MathTest extends TestCase
             [3, '0.000'],
         ];
     }
+
+    /**
+     * @dataProvider dataProviderForisZero
+     */
+    public function testisZero(string $num, bool $expectation): void
+    {
+        $this->assertEquals(
+            $expectation,
+            $this->math->isZero($num)
+        );
+    }
+
+    /**
+     * @return array<array>
+     */
+    public function dataProviderForisZero()
+    {
+        return [
+            ['0', true],
+            ['0.0', true],
+            ['0.00', true],
+            ['0.000', true],
+            ['0.001', false],
+            ['1.001', false],
+            ['1', false],
+            ['3.14', false],
+            ['000', true],
+            ['000.000', true],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderForisWellFormed
+     */
+    public function testisWellFormed(string $num, bool $expectation): void
+    {
+        $this->assertEquals(
+            $expectation,
+            $this->math->isWellFormed($num)
+        );
+    }
+
+    /**
+     * @return array<array>
+     */
+    public function dataProviderForisWellFormed()
+    {
+        return [
+            ['0', true],
+            ['0.000', true],
+            ['0.001', true],
+            ['', false],
+            ['q', false],
+            [' 3.14 ', false],
+            ['123.123.123', false],
+            ['000.000', true],
+        ];
+    }
 }
