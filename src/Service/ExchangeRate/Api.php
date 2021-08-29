@@ -6,6 +6,7 @@ namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
 use App\Exceptions\RateException;
+use App\Exceptions\RateNotFoundException;
 use App\Repository\CurrencyRepositoryInterface;
 use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
@@ -42,7 +43,10 @@ class Api implements ExchangeRateInterface
             }
         }
 
-        $response = $this->api->setFetchDate($date->format('Y-m-d'))->setBaseCurrency($from->getName())->addRate($to->getName())->fetch(true);
+        $response = @$this->api->setFetchDate($date->format('Y-m-d'))->setBaseCurrency($from->getName())->addRate($to->getName())->fetch(true);
+        if (!isset($response->rates)) {
+            throw new RateNotFoundException(sprintf('Ratio not found for %s->%s conversion', $from->getName(), $to->getName()));
+        }
 
         return (string) $response->rates->{$to->getName()};
     }

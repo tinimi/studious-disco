@@ -7,6 +7,7 @@ namespace App\Tests\Service\ExchangeRate;
 use App\DTO\CurrencyDTO;
 use App\Exceptions\CurrencyNotFoundException;
 use App\Exceptions\RateException;
+use App\Exceptions\RateNotFoundException;
 use App\Service\ExchangeRate\Api;
 use App\Service\Math;
 use App\Tests\AbstractMyTestCase;
@@ -90,5 +91,28 @@ class ApiTest extends AbstractMyTestCase
         $to = new CurrencyDTO('CHN', 2);
 
         $this->assertEquals('1.5', $api->getRatio(new DateTimeImmutable(), $from, $to));
+    }
+
+    public function testException3(): void
+    {
+        $this->expectException(RateNotFoundException::class);
+
+        $response = new stdClass();
+
+        $stub = $this->createStub(ExchangeRatesAPI::class);
+        $stub->method('setFetchDate')
+            ->willReturnSelf();
+        $stub->method('setBaseCurrency')
+            ->willReturnSelf();
+        $stub->method('addRate')
+            ->willReturnSelf();
+        $stub->method('fetch')
+            ->willReturn($response);
+
+        $api = new Api($stub, false, new Math(), 'EUR', $this->getCurrencyRepository());
+
+        $from = new CurrencyDTO('CHN', 2);
+        $to = new CurrencyDTO('EUR', 2);
+        $api->getRatio(new DateTimeImmutable(), $from, $to);
     }
 }
