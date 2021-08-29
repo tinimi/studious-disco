@@ -6,6 +6,7 @@ namespace App\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
 use App\Exceptions\RateException;
+use App\Repository\CurrencyRepositoryInterface;
 use App\Service\Math;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
@@ -17,12 +18,13 @@ class Api implements ExchangeRateInterface
     protected Math $math;
     protected string $baseCurrency;
 
-    public function __construct(ExchangeRatesAPI $api, bool $isPaid, Math $math, string $baseCurrency)
+    public function __construct(ExchangeRatesAPI $api, bool $isPaid, Math $math, string $baseCurrency, CurrencyRepositoryInterface $currencyRepository)
     {
         $this->api = $api;
         $this->isPaid = $isPaid;
         $this->math = $math;
         $this->baseCurrency = $baseCurrency;
+        $currencyRepository->getByName($baseCurrency);
     }
 
     public function getRatio(DateTimeImmutable $date, CurrencyDTO $from, CurrencyDTO $to): string

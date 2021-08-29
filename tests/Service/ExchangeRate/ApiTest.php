@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Tests\Service\ExchangeRate;
 
 use App\DTO\CurrencyDTO;
+use App\Exceptions\CurrencyNotFoundException;
 use App\Exceptions\RateException;
 use App\Service\ExchangeRate\Api;
 use App\Service\Math;
+use App\Tests\AbstractMyTestCase;
 use BenMajor\ExchangeRatesAPI\ExchangeRatesAPI;
 use DateTimeImmutable;
-use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ApiTest extends TestCase
+class ApiTest extends AbstractMyTestCase
 {
-    public function getApi(bool $isPaid, float $response): Api
+    public function getApi(bool $isPaid, float $response, string $baseCurrency = 'EUR'): Api
     {
         $response = new stdClass();
         $response->rates = new stdClass();
@@ -31,7 +32,7 @@ class ApiTest extends TestCase
         $stub->method('fetch')
             ->willReturn($response);
 
-        return new Api($stub, $isPaid, new Math(), 'EUR');
+        return new Api($stub, $isPaid, new Math(), $baseCurrency, $this->getCurrencyRepository());
     }
 
     public function testSame(): void
@@ -52,6 +53,13 @@ class ApiTest extends TestCase
         $to = new CurrencyDTO('ASD', 2);
 
         $api->getRatio(new DateTimeImmutable(), $from, $to);
+    }
+
+    public function testException2(): void
+    {
+        $this->expectException(CurrencyNotFoundException::class);
+
+        $api = $this->getApi(false, 1.5, 'qwe');
     }
 
     public function testNoException(): void
