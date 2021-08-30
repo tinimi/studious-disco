@@ -44,6 +44,7 @@ class Api implements ExchangeRateInterface
         }
 
         $response = @$this->api->setFetchDate($date->format('Y-m-d'))->setBaseCurrency($from->getName())->addRate($to->getName())->fetch(true);
+
         if (!isset($response->rates)) {
             throw new RateNotFoundException(sprintf('Ratio not found for %s->%s conversion', $from->getName(), $to->getName()));
         }

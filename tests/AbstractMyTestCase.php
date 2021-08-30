@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 abstract class AbstractMyTestCase extends TestCase
 {
     protected ContainerBuilder $container;
-    protected string $fileName = 'qwe';
 
     protected function getContainer(): ContainerBuilder
     {
@@ -38,12 +37,12 @@ abstract class AbstractMyTestCase extends TestCase
     protected function createTransactionFromArray(array $row): TransactionDTO
     {
         return new TransactionDTO(
-            $date = new DateTimeImmutable($row[0]),
+            new DateTimeImmutable($row[0]),
             $row[1],
             $row[2],
             $row[3],
             $row[4],
-            $currency = new CurrencyDTO($row[5], 'JPY' === $row[5] ? 0 : 2)
+            new CurrencyDTO($row[5], 'JPY' === $row[5] ? 0 : 2)
         );
     }
 
