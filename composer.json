@@ -1,4 +1,7 @@
 {
+    "name": "studious/disco",
+    "description": "test",
+    "license": "proprietary",
     "keywords": [],
     "type": "project",
     "autoload": {
